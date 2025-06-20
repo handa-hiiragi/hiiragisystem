@@ -530,13 +530,16 @@ function openAdminSheet() {
 
     
 window.addEventListener('DOMContentLoaded', async () => {
+  // 座席表生成
   createSeats();
+
+  // 使用不可席の読み込み
   await loadUnavailableSeats();
+
+  // ログインモーダルの表示
+  document.getElementById('loginModal').style.display = 'flex';
 });
 
-  window.onload = () => {
-  document.getElementById('loginModal').style.display = 'flex';
-};
 
     function confirmLogout() {
   document.getElementById('logoutModal').style.display = 'flex';
