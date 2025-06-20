@@ -536,40 +536,40 @@ function handleLogout(answer) {
   document.getElementById('logoutModal').style.display = 'none';
   if (!answer) return;
 
-  // Step 1: CSV出力
+  // CSVデータ作成
   const csv = generateCSV();
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  const now = new Date();
-  const fileName = `Log_${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}_${now.getHours().toString().padStart(2,'0')}${now.getMinutes().toString().padStart(2,'0')}${now.getSeconds().toString().padStart(2,'0')}.csv`;
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 
-  // Step 2: 全ての座席をクリア
-  clearAllSeats();
+  // GASにPOST
+  const formData = new URLSearchParams();
+  formData.append('mode', 'saveCSV');
+  formData.append('csv', csv);
 
-  // Step 3: ログ保存
-  saveLogs();
+  fetch('https://script.google.com/macros/s/AKfycbwgW55PchstCFdUSs6CFGvnNHDOHph9a26JgNfLt4IVr8xTme63gEG7QAPwQrJizAsl/exec', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: formData.toString()
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('CSV保存結果:', data);
 
-  // Step 4: ウィンドウ閉じる
-  setTimeout(() => {
-    window.close();
-  }, 1000); // 1秒後に閉じる（ブラウザによっては無効な場合あり）
-}
+    // ローカル座席データを初期化
+    clearAllSeats();
+    saveLogs();
 
-// CSV文字列を返す共通関数（再利用可）
-function generateCSV() {
-  let csv = 'ID,座席番号,登録番号,名前,登録時間,退席時間\n';
-  logData.forEach(log => {
-    csv += `${log.id},${log.seatId},${log.number},${log.name},${log.checkIn},${log.checkOut}\n`;
+    // タブを閉じる（ブラウザの制約あり）
+    setTimeout(() => {
+      window.close();
+    }, 1000);
+  })
+  .catch(err => {
+    alert('CSVの保存に失敗しました');
+    console.error(err);
   });
-  return csv;
 }
+
 
 
   </script>
