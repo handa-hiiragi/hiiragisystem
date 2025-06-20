@@ -215,7 +215,7 @@
 <div class="overlay" id="selectModal">
   <div class="modal">
     <h2>選択してください</h2>
-    <button onclick="openSeatView()">座席表を開く</button>
+    <button onclick="openMainScreen()">座席表を開く</button>
     <button onclick="openAdminSheet()">管理画面を開く</button>
   </div>
 </div>
@@ -555,6 +555,23 @@ function handleLogout(answer) {
   .then(data => {
     console.log('CSV保存結果:', data);
 
+    // ログ統計の送信
+const activeUsers = logData.filter(log => !log.checkOut).length;
+
+const statForm = new URLSearchParams();
+statForm.append('mode', 'logStatistics');
+statForm.append('type', 'logout');
+statForm.append('userCount', activeUsers);
+
+fetch('https://script.google.com/macros/s/AKfycbxFpmrfPFTOE6t4GZugLeRa6CLTu-3EJYONgYVBGPmJuyjlKhciZRJKe-fgK1Lyy0c/exec', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: statForm.toString()
+});
+
+
     // ローカル座席データを初期化
     clearAllSeats();
     saveLogs();
@@ -580,6 +597,25 @@ function generateCSV() {
 }
 
 
+    function openMainScreen() {
+  document.getElementById('selectModeModal').style.display = 'none';
+
+  // 統計ログ記録
+  const formData = new URLSearchParams();
+  formData.append('mode', 'logStatistics');
+  formData.append('type', 'login');
+
+  fetch('https://script.google.com/macros/s/AKfycbxFpmrfPFTOE6t4GZugLeRa6CLTu-3EJYONgYVBGPmJuyjlKhciZRJKe-fgK1Lyy0c/exec', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: formData.toString()
+  });
+}
+
+
+    
   </script>
 </body>
 </html>
