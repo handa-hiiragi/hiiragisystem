@@ -565,36 +565,32 @@ function handleLogout(answer) {
     body: formData.toString()
   })
   .then(res => res.json())
-  .then(const uniqueUsers = [...new Set(logData.map(log => log.id))];
-const count = uniqueUsers.length;
+.then(data => {
+  const uniqueUsers = [...new Set(logData.map(log => log.id))];
+  const count = uniqueUsers.length;
 
-// 統計用ログアウト時刻と人数
-const statData = new URLSearchParams();
-statData.append('mode', 'logLogoutData');
-statData.append('count', count);
-fetch('https://script.google.com/macros/s/AKfycbxV48B_McCRZgc7iZB0P1VykP4CB8adDIF9jea-RukhtvtoEvEsXY49709Ec0c20PuC/exec', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  body: statData.toString()
-}).then(console.log).catch(console.error);
+  // 統計用ログアウト時刻と人数を送信
+  const statData = new URLSearchParams();
+  statData.append('mode', 'logLogoutData');
+  statData.append('count', count);
 
-    data => {
-    console.log('CSV保存結果:', data);
+  fetch('https://script.google.com/macros/s/AKfycbxV48B_McCRZgc7iZB0P1VykP4CB8adDIF9jea-RukhtvtoEvEsXY49709Ec0c20PuC/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: statData.toString()
+  }).then(console.log).catch(console.error);
 
-    // ローカル座席データを初期化
-    clearAllSeats();
-    saveLogs();
+  console.log('CSV保存結果:', data);
 
-    // タブを閉じる（ブラウザの制約あり）
-    setTimeout(() => {
-      window.close();
-    }, 1000);
-  })
-  .catch(err => {
-    alert('CSVの保存に失敗しました');
-    console.error(err);
-  });
-}
+  // ローカル座席データを初期化
+  clearAllSeats();
+  saveLogs();
+
+  setTimeout(() => {
+    window.close();
+  }, 1000);
+})
+
 
     // CSV文字列を返す共通関数（再利用可）
 function generateCSV() {
