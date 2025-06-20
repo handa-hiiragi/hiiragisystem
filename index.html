@@ -418,7 +418,7 @@ function showLogs() {
   formData.append('mode', 'getUnavailableSeats');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwgW55PchstCFdUSs6CFGvnNHDOHph9a26JgNfLt4IVr8xTme63gEG7QAPwQrJizAsl/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyrTbySBofAx0mffrx18Y1jC3re0_dryjKktwHDI888kzTBLAc2BYCKLn2AP_8_42Lp/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -570,6 +570,14 @@ function handleLogout(answer) {
   });
 }
 
+    // CSV文字列を返す共通関数（再利用可）
+function generateCSV() {
+  let csv = 'ID,座席番号,登録番号,名前,登録時間,退席時間\n';
+  logData.forEach(log => {
+    csv += `${log.id},${log.seatId},${log.number},${log.name},${log.checkIn},${log.checkOut}\n`;
+  });
+  return csv;
+}
 
 
   </script>
