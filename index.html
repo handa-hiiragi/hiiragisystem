@@ -215,7 +215,7 @@
 <div class="overlay" id="selectModal">
   <div class="modal">
     <h2>選択してください</h2>
-    <button onclick="openMainScreen()">座席表を開く</button>
+    <button onclick="openSeatView()">座席表を開く</button>
     <button onclick="openAdminSheet()">管理画面を開く</button>
   </div>
 </div>
@@ -511,7 +511,17 @@ async function verifyPassword() {
 
 function openSeatView() {
   document.getElementById('selectModal').style.display = 'none';
+
+  // 統計用ログイン時刻送信
+  const formData = new URLSearchParams();
+  formData.append('mode', 'logLoginTime');
+  fetch('https://script.google.com/macros/s/AKfycbxV48B_McCRZgc7iZB0P1VykP4CB8adDIF9jea-RukhtvtoEvEsXY49709Ec0c20PuC/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formData.toString()
+  }).then(res => res.json()).then(console.log).catch(console.error);
 }
+
 
 function openAdminSheet() {
   window.open('https://docs.google.com/spreadsheets/d/139WkNoBoTDNo7RddbsWPrHjRQcraW3OqpWxubm24c2U/edit?gid=0#gid=0');
@@ -552,25 +562,21 @@ function handleLogout(answer) {
     body: formData.toString()
   })
   .then(res => res.json())
-  .then(data => {
-    console.log('CSV保存結果:', data);
+  .then(const uniqueUsers = [...new Set(logData.map(log => log.id))];
+const count = uniqueUsers.length;
 
-    // ログ統計の送信
-const activeUsers = logData.filter(log => !log.checkOut).length;
-
-const statForm = new URLSearchParams();
-statForm.append('mode', 'logStatistics');
-statForm.append('type', 'logout');
-statForm.append('userCount', activeUsers);
-
-fetch('https://script.google.com/macros/s/AKfycbxFpmrfPFTOE6t4GZugLeRa6CLTu-3EJYONgYVBGPmJuyjlKhciZRJKe-fgK1Lyy0c/exec', {
+// 統計用ログアウト時刻と人数
+const statData = new URLSearchParams();
+statData.append('mode', 'logLogoutData');
+statData.append('count', count);
+fetch('https://script.google.com/macros/s/AKfycbxV48B_McCRZgc7iZB0P1VykP4CB8adDIF9jea-RukhtvtoEvEsXY49709Ec0c20PuC/exec', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: statForm.toString()
-});
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: statData.toString()
+}).then(console.log).catch(console.error);
 
+    data => {
+    console.log('CSV保存結果:', data);
 
     // ローカル座席データを初期化
     clearAllSeats();
@@ -597,25 +603,6 @@ function generateCSV() {
 }
 
 
-    function openMainScreen() {
-  document.getElementById('selectModeModal').style.display = 'none';
-
-  // 統計ログ記録
-  const formData = new URLSearchParams();
-  formData.append('mode', 'logStatistics');
-  formData.append('type', 'login');
-
-  fetch('https://script.google.com/macros/s/AKfycbxFpmrfPFTOE6t4GZugLeRa6CLTu-3EJYONgYVBGPmJuyjlKhciZRJKe-fgK1Lyy0c/exec', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: formData.toString()
-  });
-}
-
-
-    
   </script>
 </body>
 </html>
