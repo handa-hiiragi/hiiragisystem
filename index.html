@@ -137,6 +137,7 @@
       <button onclick="exportLogs()">ログをCSVで保存</button>
       <button onclick="clearAllSeats()">全てクリア</button>
       <button onclick="showLogs()">ログを表示</button>
+      <button onclick="confirmLogout()">ログアウト</button>
       <br><br>
       <button onclick="document.getElementById('settingsModal').style.display='none'">閉じる</button>
     </div>
@@ -216,6 +217,15 @@
     <h2>選択してください</h2>
     <button onclick="openSeatView()">座席表を開く</button>
     <button onclick="openAdminSheet()">管理画面を開く</button>
+  </div>
+</div>
+
+  <!-- ログアウト確認モーダル -->
+<div class="overlay" id="logoutModal">
+  <div class="modal">
+    <h2>ログアウトしますか？</h2>
+    <button onclick="handleLogout(true)">はい</button>
+    <button onclick="handleLogout(false)">いいえ</button>
   </div>
 </div>
 
@@ -517,6 +527,49 @@ window.addEventListener('DOMContentLoaded', async () => {
   window.onload = () => {
   document.getElementById('loginModal').style.display = 'flex';
 };
+
+    function confirmLogout() {
+  document.getElementById('logoutModal').style.display = 'flex';
+}
+
+function handleLogout(answer) {
+  document.getElementById('logoutModal').style.display = 'none';
+  if (!answer) return;
+
+  // Step 1: CSV出力
+  const csv = generateCSV();
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const now = new Date();
+  const fileName = `Log_${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}_${now.getHours().toString().padStart(2,'0')}${now.getMinutes().toString().padStart(2,'0')}${now.getSeconds().toString().padStart(2,'0')}.csv`;
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  // Step 2: 全ての座席をクリア
+  clearAllSeats();
+
+  // Step 3: ログ保存
+  saveLogs();
+
+  // Step 4: ウィンドウ閉じる
+  setTimeout(() => {
+    window.close();
+  }, 1000); // 1秒後に閉じる（ブラウザによっては無効な場合あり）
+}
+
+// CSV文字列を返す共通関数（再利用可）
+function generateCSV() {
+  let csv = 'ID,座席番号,登録番号,名前,登録時間,退席時間\n';
+  logData.forEach(log => {
+    csv += `${log.id},${log.seatId},${log.number},${log.name},${log.checkIn},${log.checkOut}\n`;
+  });
+  return csv;
+}
 
 
   </script>
