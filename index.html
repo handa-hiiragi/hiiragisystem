@@ -514,6 +514,7 @@ function openAdminSheet() {
 
     
 window.addEventListener('DOMContentLoaded', async () => {
+   document.getElementById('loginModal').style.display = 'flex';
   // 座席表生成
   createSeats();
 
@@ -521,7 +522,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   await loadUnavailableSeats();
 
   // ログインモーダルの表示
-  document.getElementById('loginModal').style.display = 'flex';
 });
 
 
