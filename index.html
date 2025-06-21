@@ -509,7 +509,7 @@ async function verifyPassword() {
   formData.append('mode', 'getPassword');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbzLHQzYlWag9lSZqORg0xsZwBQ5JwbwzqWEn-owh-BhOcQ0-sTGjEq6Vqb_prBayjVJ/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbws4vzu03bNtuHhKWNzsJ2GPmQDl3KEDNDQYIT9-V1dk00JCGgGsRdIki3CRuZfuDui/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -533,7 +533,7 @@ function openSeatView() {
   // 統計用ログイン時刻送信
   const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbxV48B_McCRZgc7iZB0P1VykP4CB8adDIF9jea-RukhtvtoEvEsXY49709Ec0c20PuC/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbws4vzu03bNtuHhKWNzsJ2GPmQDl3KEDNDQYIT9-V1dk00JCGgGsRdIki3CRuZfuDui/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -573,7 +573,7 @@ function handleLogout(answer) {
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
 
-  fetch('https://script.google.com/macros/s/AKfycbwgW55PchstCFdUSs6CFGvnNHDOHph9a26JgNfLt4IVr8xTme63gEG7QAPwQrJizAsl/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbws4vzu03bNtuHhKWNzsJ2GPmQDl3KEDNDQYIT9-V1dk00JCGgGsRdIki3CRuZfuDui/exec', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -589,7 +589,7 @@ function handleLogout(answer) {
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
 
-    fetch('https://script.google.com/macros/s/AKfycbxV48B_McCRZgc7iZB0P1VykP4CB8adDIF9jea-RukhtvtoEvEsXY49709Ec0c20PuC/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbws4vzu03bNtuHhKWNzsJ2GPmQDl3KEDNDQYIT9-V1dk00JCGgGsRdIki3CRuZfuDui/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: statData.toString()
