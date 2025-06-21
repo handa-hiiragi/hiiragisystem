@@ -244,20 +244,20 @@
 
 
 function createSeats() {
-  createFloorSeats(seatIds1F, '1F');
-  const separator = document.createElement('div');
-  separator.style.height = '40px';
-  seatGrid.appendChild(separator);
-  createFloorSeats(seatIds2F, '2F');
+  createFloorSeats(seatIds1F);
+  insertSpacer(); // 1Fと2Fの間にスペース
+  createFloorSeats(seatIds2F);
+  restoreSeatState();
+  updateOccupancyRate();
 }
 
-function createFloorSeats(seatIdList, floorLabel) {
+function createFloorSeats(seatList) {
   let index = 0;
   for (let r = 0; r < 7; r++) {
-    [3, 4, 3].forEach((count, blockIndex) => {
-      for (let i = 0; i < count; i++) {
+    [3, 4, 3].forEach((count, i) => {
+      for (let j = 0; j < count; j++) {
+        const seatId = seatList[index];
         const seat = document.createElement('div');
-        const seatId = seatIdList[index];
         seat.className = 'seat';
         seat.dataset.id = seatId;
         seat.innerHTML = `<div class="seat-id-label">${seatId}</div>`;
@@ -265,13 +265,21 @@ function createFloorSeats(seatIdList, floorLabel) {
         seatGrid.appendChild(seat);
         index++;
       }
-      if (blockIndex < 2) {
+      if (i < 2) {
+        // 3+4+3の区切りのスペーサー
         const spacer = document.createElement('div');
         spacer.className = 'spacer';
         seatGrid.appendChild(spacer);
       }
     });
   }
+}
+
+function insertSpacer() {
+  const br = document.createElement('div');
+  br.style.gridColumn = '1 / -1';
+  br.style.height = '40px';
+  seatGrid.appendChild(br);
 }
 
 
