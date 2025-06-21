@@ -459,8 +459,8 @@ function showLogs() {
   }
 }
 
-function markUnavailableSeats(allSeatIds) {
-  seatIds.forEach(allSeatIds => {
+function markUnavailableSeats(unavailableSeatIds) {
+  unavailableSeatIds.forEach(allSeatIds => {
     const seat = document.querySelector(`.seat[data-id='${allSeatIds}']`);
     if (seat) {
       seat.classList.add('unavailable');
