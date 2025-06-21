@@ -14,14 +14,17 @@
     h1 {
       margin-bottom: 20px;
     }
-    .seat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr) 40px repeat(4, 1fr) 40px repeat(3, 1fr);
-      gap: 5px;
-      justify-content: center;
-      margin: auto;
-      max-width: 800px;
-    }
+.seat-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 60px) 40px
+    repeat(4, 60px) 40px
+    repeat(3, 60px); /* ← 幅固定 */
+  gap: 5px;
+  justify-content: center;
+  margin: auto;
+  max-width: fit-content; /* ← 内容サイズに合わせる */
+}
     .seat {
       width: 60px;
       height: 60px;
