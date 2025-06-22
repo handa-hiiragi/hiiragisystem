@@ -455,14 +455,15 @@ function applySeatAssignment(seatEl, number, name) {
   seatEl.classList.remove('red', 'green', 'blue', 'orange');
   seatEl.style.background = ''; // 旧スタイルリセット
 
-  const color = gradeColorMap[firstDigit];
-  if (color) {
-    seatEl.classList.add('active');
-    seatEl.style.background = color;
-    seatEl.style.color = '#fff';
-  } else {
-    seatEl.classList.add('active', 'orange'); // fallback
-  }
+// クラスを追加する方法
+const colorClass = gradeColorMap[firstDigit]; // 例: "red", "green" など
+seatEl.classList.add('active');
+if (colorClass) {
+  seatEl.classList.add(colorClass);
+} else {
+  seatEl.classList.add('orange'); // fallback
+}
+
 
 
   const idLabel = seatEl.querySelector('.seat-id-label');
@@ -524,6 +525,8 @@ function showLogs() {
       document.querySelectorAll('.seat').forEach(seat => {
         const idLabel = seat.querySelector('.seat-id-label');
         seat.classList.remove('active', 'red', 'green', 'blue', 'orange');
+        seat.style.background = '';
+        seat.style.color = '';
         seat.innerHTML = idLabel ? idLabel.outerHTML : '';
       });
       logData = [];
