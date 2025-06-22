@@ -252,6 +252,7 @@
     let leaveTargetSeat = null;
     let pendingMoveInfo = null;
     let inputNumberStr = '';
+    let gradeColorMap = {};
     let logData = JSON.parse(localStorage.getItem('seatLogs') || '[]');
 
     const seatIds1F = Array.from({length: 70}, (_, i) => `1${String(i + 1).padStart(2, '0')}`);
@@ -337,11 +338,21 @@ function insertSpacer() {
           if (seatEl) {
             seatEl.classList.add('active');
             seatEl.classList.remove('red', 'green', 'blue', 'orange');
-            const firstDigit = log.number.charAt(0);
-            if (firstDigit === '1') seatEl.classList.add('red');
-            else if (firstDigit === '2') seatEl.classList.add('green');
-            else if (firstDigit === '3') seatEl.classList.add('blue');
-            else seatEl.classList.add('orange');
+        const firstDigit = inputNumberStr.charAt(0);
+selectedSeatEl.classList.remove('red', 'green', 'blue', 'orange');
+selectedSeatEl.style.background = ''; // 前の色をリセット
+
+// スプレッドシートで読み込んだ色を使う
+const gradeColor = gradeColorMap[firstDigit];
+if (gradeColor) {
+  selectedSeatEl.classList.add('active');
+  selectedSeatEl.style.background = gradeColor;
+  selectedSeatEl.style.color = '#fff';
+} else {
+  // スプレッドシートに色が無い場合のフォールバック
+  selectedSeatEl.classList.add('active', 'orange');
+}
+
             const idLabel = seatEl.querySelector('.seat-id-label');
             seatEl.innerHTML = idLabel.outerHTML + `<div>${log.number}</div>` + (log.name ? `<div class="seat-label">${log.name}</div>` : '');
           }
@@ -518,7 +529,7 @@ function showLogs() {
   formData.append('mode', 'getUnavailableSeats');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwrgCNaaZwV26uXf6677xRvzN-7jVTn6D_zzWVk5O9gXrjTy2wCyjFnp7Hm9JkrBNWB/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -605,7 +616,7 @@ async function verifyPassword() {
   formData.append('mode', 'getPassword');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwrgCNaaZwV26uXf6677xRvzN-7jVTn6D_zzWVk5O9gXrjTy2wCyjFnp7Hm9JkrBNWB/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -629,7 +640,7 @@ function openSeatView() {
   // 統計用ログイン時刻送信
   const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbws4vzu03bNtuHhKWNzsJ2GPmQDl3KEDNDQYIT9-V1dk00JCGgGsRdIki3CRuZfuDui/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -645,13 +656,14 @@ function openAdminSheet() {
     
 window.addEventListener('DOMContentLoaded', async () => {
    document.getElementById('loginModal').style.display = 'flex';
+
+    await loadGradeColors(); 
   // 座席表生成
   createSeats();
 
   // 使用不可席の読み込み
   await loadUnavailableSeats();
 
-  // ログインモーダルの表示
 });
 
 
@@ -669,7 +681,7 @@ function handleLogout(answer) {
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
 
-  fetch('https://script.google.com/macros/s/AKfycbwrgCNaaZwV26uXf6677xRvzN-7jVTn6D_zzWVk5O9gXrjTy2wCyjFnp7Hm9JkrBNWB/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -685,7 +697,7 @@ function handleLogout(answer) {
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
 
-    fetch('https://script.google.com/macros/s/AKfycbwrgCNaaZwV26uXf6677xRvzN-7jVTn6D_zzWVk5O9gXrjTy2wCyjFnp7Hm9JkrBNWB/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: statData.toString()
@@ -711,6 +723,26 @@ function generateCSV() {
     csv += `${log.id},${log.seatId},${log.number},${log.name},${log.checkIn},${log.checkOut}\n`;
   });
   return csv;
+}
+
+
+    async function loadGradeColors() {
+  const formData = new URLSearchParams();
+  formData.append('mode', 'getGradeColors');
+
+  try {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString()
+    });
+
+    gradeColorMap = await res.json(); // ← グローバル変数に保持
+    console.log("Grade-Color Map:", gradeColorMap);
+  } catch (e) {
+    console.error("Grade color 読み込みエラー", e);
+    alert("座席色設定の読み込みに失敗しました");
+  }
 }
 
 
