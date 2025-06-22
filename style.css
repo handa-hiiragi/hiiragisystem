@@ -1,0 +1,119 @@
+ body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+.seat-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 60px) 40px
+    repeat(4, 60px) 40px
+    repeat(3, 60px); /* ← 3+4+3の絶対幅 */
+  gap: 5px;
+  justify-content: start;
+  margin: auto;
+  max-width: fit-content;
+  overflow-x: auto;
+}
+
+    .seat {
+      width: 60px;
+      height: 60px;
+      background: #ddd;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      flex-direction: column;
+    }
+    .seat:hover {
+      background: #bbb;
+    }
+    .seat.active.red {
+      background: #e49edd;
+      color: white;
+    }
+    .seat.active.green {
+      background: #83e28e;
+      color: white;
+    }
+    .seat.active.blue {
+      background: #83cceb;
+      color: white;
+    }
+    .seat.active.orange {
+      background: #f1a983;
+      color: white;
+    }
+    .seat-label {
+      font-size: 12px;
+      position: absolute;
+      bottom: 2px;
+      left: 2px;
+    }
+    .seat-id-label {
+      font-size: 11px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      font-weight: bold;
+    }
+    .spacer {
+      width: 40px;
+      height: 60px;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      width: 350px;
+      max-width: 90vw;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      text-align: center;
+      font-size: 18px;
+    }
+    .modal input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .modal button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    .number-display {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .keypad button {
+      font-size: 20px;
+      padding: 15px;
+    }
