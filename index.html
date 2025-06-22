@@ -374,31 +374,72 @@ function insertSpacer() {
       return 'ID' + Math.random().toString(36).substr(2, 9);
     }
 
-    function confirmAssign() {
-      const userName = document.getElementById('userName').value.trim();
-      if (inputNumberStr.length !== 4) {
-        alert('4桁の数字を入力してください');
-        return;
-      }
-      const now = new Date().toLocaleString();
-      const id = generateId();
-      const seatId = selectedSeatEl.dataset.id;
-      const firstDigit = inputNumberStr.charAt(0);
-      selectedSeatEl.classList.add('active');
-      selectedSeatEl.classList.remove('red', 'green', 'blue', 'orange');
-      if (firstDigit === '1') selectedSeatEl.classList.add('red');
-      else if (firstDigit === '2') selectedSeatEl.classList.add('green');
-      else if (firstDigit === '3') selectedSeatEl.classList.add('blue');
-      else selectedSeatEl.classList.add('orange');
+function confirmAssign() {
+  const userName = document.getElementById('userName').value.trim();
+  if (inputNumberStr.length !== 4) {
+    alert('4桁の数字を入力してください');
+    return;
+  }
 
-      const idLabel = selectedSeatEl.querySelector('.seat-id-label');
-      selectedSeatEl.innerHTML = idLabel.outerHTML + `<div>${inputNumberStr}</div>` + (userName ? `<div class="seat-label">${userName}</div>` : '');
+  const now = new Date().toLocaleString();
+  const seatId = selectedSeatEl.dataset.id;
+  const firstDigit = inputNumberStr.charAt(0);
 
-      logData.push({ id, seatId, number: inputNumberStr, name: userName, checkIn: now, checkOut: '' });
-      saveLogs();
-      closeAssignModal();
-      updateOccupancyRate(); 
+  // 既に同じ番号が使われているか確認
+  const existingLog = logData.find(log => log.number === inputNumberStr && !log.checkOut);
+  if (existingLog) {
+    const currentSeatId = existingLog.seatId;
+    if (currentSeatId === seatId) {
+      alert('この座席にはすでに同じ番号が登録されています。');
+      return;
     }
+
+    const confirmChange = confirm(`${inputNumberStr} は現在座席 ${currentSeatId} を利用中です。\n座席を ${currentSeatId} から ${seatId} へ移動しますか？`);
+    if (!confirmChange) {
+      return;
+    }
+
+    // 元の席をクリア
+    const oldSeatEl = document.querySelector(`.seat[data-id='${currentSeatId}']`);
+    if (oldSeatEl) {
+      const idLabel = oldSeatEl.querySelector('.seat-id-label');
+      oldSeatEl.classList.remove('active', 'red', 'green', 'blue', 'orange');
+      oldSeatEl.innerHTML = idLabel ? idLabel.outerHTML : '';
+    }
+
+    // ログの座席ID更新
+    existingLog.seatId = seatId;
+    existingLog.checkIn = now; // 移動を新しい入室として記録
+    existingLog.checkOut = ''; // 移動なので退席扱いにはしない
+  } else {
+    // 新規登録
+    const id = generateId();
+    logData.push({
+      id,
+      seatId,
+      number: inputNumberStr,
+      name: userName,
+      checkIn: now,
+      checkOut: ''
+    });
+  }
+
+  // 新しい席に登録
+  selectedSeatEl.classList.add('active');
+  selectedSeatEl.classList.remove('red', 'green', 'blue', 'orange');
+  if (firstDigit === '1') selectedSeatEl.classList.add('red');
+  else if (firstDigit === '2') selectedSeatEl.classList.add('green');
+  else if (firstDigit === '3') selectedSeatEl.classList.add('blue');
+  else selectedSeatEl.classList.add('orange');
+
+  const idLabel = selectedSeatEl.querySelector('.seat-id-label');
+  selectedSeatEl.innerHTML = idLabel.outerHTML + `<div>${inputNumberStr}</div>` + (userName ? `<div class="seat-label">${userName}</div>` : '');
+
+  saveLogs();
+  closeAssignModal();
+  updateOccupancyRate();
+}
+
 
     function closeAssignModal() {
       document.getElementById('assignModal').style.display = 'none';
