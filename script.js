@@ -18,6 +18,16 @@ function createSeats() {
 
   const layoutPerRow = [0, 1, 2, null, 3, 4, 5, 6, null, 7, 8, 9]; // 12列構成
 
+      // ▶ 1階ラベルを追加
+  // -----------------------------
+  const label1F = document.createElement('div');
+  label1F.textContent = '【1階】';
+  label1F.style.gridColumn = '1 / -1';
+  label1F.style.fontSize = '20px';
+  label1F.style.margin = '10px 0';
+  label1F.style.fontWeight = 'bold';
+  seatGrid.appendChild(label1F);
+
   // 1階（7行）
   let index = 0;
   for (let row = 0; row < 7; row++) {
@@ -43,6 +53,16 @@ function createSeats() {
   spacerRow.style.gridColumn = '1 / -1';
   spacerRow.style.height = '40px';
   seatGrid.appendChild(spacerRow);
+
+      // ▶ 2階ラベルを追加
+  // -----------------------------
+  const label2F = document.createElement('div');
+  label2F.textContent = '【2階】';
+  label2F.style.gridColumn = '1 / -1';
+  label2F.style.fontSize = '20px';
+  label2F.style.margin = '10px 0';
+  label2F.style.fontWeight = 'bold';
+  seatGrid.appendChild(label2F);
 
   // 2階（8行）
   index = 0;
@@ -350,7 +370,7 @@ function markUnavailableSeats(unavailableSeatIds) {
   const rate2F = available2F ? Math.round((occupied2F / available2F) * 1000) / 10 : 0;
 
   document.getElementById('occupancyRate').innerHTML = `
-    1階混雑率：${rate1F}%　｜　2階混雑率：${rate2F}%`;
+    1階利用率：${rate1F}%　｜　2階利用率：${rate2F}%`;
 }
 
 
