@@ -524,6 +524,10 @@ function showLogs() {
     function clearAllSeats() {
       document.querySelectorAll('.seat').forEach(seat => {
         const idLabel = seat.querySelector('.seat-id-label');
+
+        // 使用不可の座席はスキップ
+        if (seat.classList.contains('unavailable')) return;
+        
         seat.classList.remove('active', 'red', 'green', 'blue', 'orange');
         seat.style.background = '';
         seat.style.color = '';
