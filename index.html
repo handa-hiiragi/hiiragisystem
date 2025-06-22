@@ -234,11 +234,23 @@
 </div>
 
 
+  <!-- 座席移動確認モーダル -->
+<div class="overlay" id="moveConfirmModal">
+  <div class="modal">
+    <h2 id="moveConfirmText">座席を移動しますか？</h2>
+    <button onclick="confirmSeatMove(true)">はい</button>
+    <button onclick="confirmSeatMove(false)">いいえ</button>
+  </div>
+</div>
+
+
+
   <script>
     const seatGrid = document.getElementById('seatGrid');
     let selectedSeatId = null;
     let selectedSeatEl = null;
     let leaveTargetSeat = null;
+    let pendingMoveInfo = null;
     let inputNumberStr = '';
     let logData = JSON.parse(localStorage.getItem('seatLogs') || '[]');
 
@@ -381,64 +393,77 @@ function confirmAssign() {
     return;
   }
 
-  const now = new Date().toLocaleString();
-  const seatId = selectedSeatEl.dataset.id;
-  const firstDigit = inputNumberStr.charAt(0);
-
-  // 既に同じ番号が使われているか確認
   const existingLog = logData.find(log => log.number === inputNumberStr && !log.checkOut);
-  if (existingLog) {
-    const currentSeatId = existingLog.seatId;
-    if (currentSeatId === seatId) {
-      alert('この座席にはすでに同じ番号が登録されています。');
-      return;
-    }
+  if (existingLog && existingLog.seatId !== selectedSeatEl.dataset.id) {
+    // 移動確認モーダルの表示
+    const fromSeat = existingLog.seatId;
+    const toSeat = selectedSeatEl.dataset.id;
+    document.getElementById('moveConfirmText').textContent =
+      `${inputNumberStr} は現在 ${fromSeat} を利用中です。\n${fromSeat} から ${toSeat} に移動しますか？`;
 
-    const confirmChange = confirm(`${inputNumberStr} は現在座席 ${currentSeatId} を利用中です。\n座席を ${currentSeatId} から ${seatId} へ移動しますか？`);
-    if (!confirmChange) {
-      return;
-    }
+    pendingMoveInfo = { log: existingLog, newSeatEl: selectedSeatEl, name: userName };
+    document.getElementById('assignModal').style.display = 'none';
+    document.getElementById('moveConfirmModal').style.display = 'flex';
+    return;
+  }
 
-    // 元の席をクリア
-    const oldSeatEl = document.querySelector(`.seat[data-id='${currentSeatId}']`);
+  // 新規登録処理
+  applySeatAssignment(selectedSeatEl, inputNumberStr, userName);
+}
+
+
+    function confirmSeatMove(answer) {
+  document.getElementById('moveConfirmModal').style.display = 'none';
+
+  if (answer && pendingMoveInfo) {
+    const { log, newSeatEl, name } = pendingMoveInfo;
+
+    // 元の座席をクリア
+    const oldSeatEl = document.querySelector(`.seat[data-id='${log.seatId}']`);
     if (oldSeatEl) {
       const idLabel = oldSeatEl.querySelector('.seat-id-label');
       oldSeatEl.classList.remove('active', 'red', 'green', 'blue', 'orange');
       oldSeatEl.innerHTML = idLabel ? idLabel.outerHTML : '';
     }
 
-    // ログの座席ID更新
-    existingLog.seatId = seatId;
-    existingLog.checkIn = now; // 移動を新しい入室として記録
-    existingLog.checkOut = ''; // 移動なので退席扱いにはしない
-  } else {
-    // 新規登録
-    const id = generateId();
-    logData.push({
-      id,
-      seatId,
-      number: inputNumberStr,
-      name: userName,
-      checkIn: now,
-      checkOut: ''
-    });
+    // ログのseatIdを更新（checkInはそのまま）
+    log.seatId = newSeatEl.dataset.id;
+
+    // 新しい座席を登録状態に変更
+    applySeatAssignment(newSeatEl, log.number, name);
+
+    saveLogs();
+    updateOccupancyRate();
   }
 
-  // 新しい席に登録
-  selectedSeatEl.classList.add('active');
-  selectedSeatEl.classList.remove('red', 'green', 'blue', 'orange');
-  if (firstDigit === '1') selectedSeatEl.classList.add('red');
-  else if (firstDigit === '2') selectedSeatEl.classList.add('green');
-  else if (firstDigit === '3') selectedSeatEl.classList.add('blue');
-  else selectedSeatEl.classList.add('orange');
+  pendingMoveInfo = null;
+}
 
-  const idLabel = selectedSeatEl.querySelector('.seat-id-label');
-  selectedSeatEl.innerHTML = idLabel.outerHTML + `<div>${inputNumberStr}</div>` + (userName ? `<div class="seat-label">${userName}</div>` : '');
+function applySeatAssignment(seatEl, number, name) {
+  const firstDigit = number.charAt(0);
+  seatEl.classList.add('active');
+  seatEl.classList.remove('red', 'green', 'blue', 'orange');
+  if (firstDigit === '1') seatEl.classList.add('red');
+  else if (firstDigit === '2') seatEl.classList.add('green');
+  else if (firstDigit === '3') seatEl.classList.add('blue');
+  else seatEl.classList.add('orange');
 
-  saveLogs();
+  const idLabel = seatEl.querySelector('.seat-id-label');
+  seatEl.innerHTML = idLabel.outerHTML + `<div>${number}</div>` + (name ? `<div class="seat-label">${name}</div>` : '');
+
+  // ログに新規追加（すでにある場合はスキップ）
+  const existingLog = logData.find(log => log.number === number && !log.checkOut);
+  if (!existingLog) {
+    const id = generateId();
+    const now = new Date().toLocaleString();
+    logData.push({ id, seatId: seatEl.dataset.id, number, name, checkIn: now, checkOut: '' });
+    saveLogs();
+  }
+
   closeAssignModal();
   updateOccupancyRate();
 }
+
 
 
     function closeAssignModal() {
