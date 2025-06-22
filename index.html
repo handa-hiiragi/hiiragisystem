@@ -535,6 +535,7 @@ function showLogs() {
       });
       logData = [];
       localStorage.removeItem('seatLogs');
+        updateOccupancyRate();
     }
 
     async function loadUnavailableSeats() {
