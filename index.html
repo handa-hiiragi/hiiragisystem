@@ -251,42 +251,52 @@
 function createSeats() {
   seatGrid.innerHTML = '';
 
-  // === 1階（7行） ===
-  for (let row = 0; row < 7; row++) {
-    for (let col = 0; col < 10; col++) {
-      const index = row * 10 + col;
-      const seatId = seatIds1F[index];
-      if (!seatId) continue;
+  const layoutPerRow = [0, 1, 2, null, 3, 4, 5, 6, null, 7, 8, 9]; // 12列構成
 
-      const seat = document.createElement('div');
-      seat.className = 'seat';
-      seat.dataset.id = seatId;
-      seat.innerHTML = `<div class="seat-id-label">${seatId}</div>`;
-      seat.addEventListener('click', () => selectSeat(seat));
-      seatGrid.appendChild(seat);
-    }
+  // 1階（7行）
+  let index = 0;
+  for (let row = 0; row < 7; row++) {
+    layoutPerRow.forEach(pos => {
+      if (pos === null) {
+        const spacer = document.createElement('div');
+        spacer.className = 'spacer';
+        seatGrid.appendChild(spacer);
+      } else {
+        const seatId = seatIds1F[index++];
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        seat.dataset.id = seatId;
+        seat.innerHTML = `<div class="seat-id-label">${seatId}</div>`;
+        seat.addEventListener('click', () => selectSeat(seat));
+        seatGrid.appendChild(seat);
+      }
+    });
   }
 
-  // スペーサー（1F-2F間）
-  const spacer = document.createElement('div');
-  spacer.style.gridColumn = '1 / -1';
-  spacer.style.height = '40px';
-  seatGrid.appendChild(spacer);
+  // スペーサー行（1階と2階の間）
+  const spacerRow = document.createElement('div');
+  spacerRow.style.gridColumn = '1 / -1';
+  spacerRow.style.height = '40px';
+  seatGrid.appendChild(spacerRow);
 
-  // === 2階（8行） ===
+  // 2階（8行）
+  index = 0;
   for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 10; col++) {
-      const index = row * 10 + col;
-      const seatId = seatIds2F[index];
-      if (!seatId) continue;
-
-      const seat = document.createElement('div');
-      seat.className = 'seat';
-      seat.dataset.id = seatId;
-      seat.innerHTML = `<div class="seat-id-label">${seatId}</div>`;
-      seat.addEventListener('click', () => selectSeat(seat));
-      seatGrid.appendChild(seat);
-    }
+    layoutPerRow.forEach(pos => {
+      if (pos === null) {
+        const spacer = document.createElement('div');
+        spacer.className = 'spacer';
+        seatGrid.appendChild(spacer);
+      } else {
+        const seatId = seatIds2F[index++];
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        seat.dataset.id = seatId;
+        seat.innerHTML = `<div class="seat-id-label">${seatId}</div>`;
+        seat.addEventListener('click', () => selectSeat(seat));
+        seatGrid.appendChild(seat);
+      }
+    });
   }
 
   restoreSeatState();
