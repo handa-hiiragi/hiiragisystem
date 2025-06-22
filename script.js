@@ -1,3 +1,4 @@
+//初期設定
 const seatGrid = document.getElementById('seatGrid');
     let selectedSeatId = null;
     let selectedSeatEl = null;
@@ -7,19 +8,20 @@ const seatGrid = document.getElementById('seatGrid');
     let gradeColorMap = {};
     let logData = JSON.parse(localStorage.getItem('seatLogs') || '[]');
 
+//座席の作成方法を設定
     const seatIds1F = Array.from({length: 70}, (_, i) => `1${String(i + 1).padStart(2, '0')}`);
 　　const seatIds2F = Array.from({length: 80}, (_, i) => `2${String(i + 1).padStart(2, '0')}`);
 　　const allSeatIds = [...seatIds1F, ...seatIds2F];
 
 
-
+//座席作成機能
 function createSeats() {
   seatGrid.innerHTML = '';
 
+// ▶ 座席レイアウト
   const layoutPerRow = [0, 1, 2, null, 3, 4, 5, 6, null, 7, 8, 9]; // 12列構成
 
-      // ▶ 1階ラベルを追加
-  // -----------------------------
+ // ▶ 1階ラベルを追加
   const label1F = document.createElement('div');
   label1F.textContent = '【1階】';
   label1F.style.gridColumn = '1 / -1';
@@ -28,7 +30,7 @@ function createSeats() {
   label1F.style.fontWeight = 'bold';
   seatGrid.appendChild(label1F);
 
-  // 1階（7行）
+  // ▶ 1階（7行）を作成
   let index = 0;
   for (let row = 0; row < 7; row++) {
     layoutPerRow.forEach(pos => {
@@ -48,14 +50,13 @@ function createSeats() {
     });
   }
 
-  // スペーサー行（1階と2階の間）
+  // ▶ スペーサー行（1階と2階の間）を追加
   const spacerRow = document.createElement('div');
   spacerRow.style.gridColumn = '1 / -1';
   spacerRow.style.height = '40px';
   seatGrid.appendChild(spacerRow);
 
-      // ▶ 2階ラベルを追加
-  // -----------------------------
+// ▶ 2階ラベルを追加
   const label2F = document.createElement('div');
   label2F.textContent = '【2階】';
   label2F.style.gridColumn = '1 / -1';
@@ -64,7 +65,7 @@ function createSeats() {
   label2F.style.fontWeight = 'bold';
   seatGrid.appendChild(label2F);
 
-  // 2階（8行）
+  // ▶ 2階（8行）を作成
   index = 0;
   for (let row = 0; row < 8; row++) {
     layoutPerRow.forEach(pos => {
@@ -83,13 +84,13 @@ function createSeats() {
       }
     });
   }
-
+// ▶利用率を更新
   restoreSeatState();
   updateOccupancyRate();
 }
 
 
-
+//【機能不明】機能
 function insertSpacer() {
   const br = document.createElement('div');
   br.style.gridColumn = '1 / -1';
@@ -98,11 +99,12 @@ function insertSpacer() {
 }
 
 
-
+//ログセーブ機能
     function saveLogs() {
       localStorage.setItem('seatLogs', JSON.stringify(logData));
     }
 
+//退席処理機能
     function restoreSeatState() {
       logData.forEach(log => {
         if (!log.checkOut) {
@@ -132,6 +134,7 @@ if (gradeColor) {
       });
     }
 
+//座席選択画面表示機能
     function selectSeat(seat) {
       if (seat.classList.contains('active')) {
         leaveTargetSeat = seat;
@@ -143,6 +146,7 @@ if (gradeColor) {
       document.getElementById('assignModal').style.display = 'flex';
     }
 
+//指定番号表示機能
     function inputNumber(digit) {
       if (inputNumberStr.length < 4) {
         inputNumberStr += digit;
@@ -150,32 +154,37 @@ if (gradeColor) {
       }
     }
 
+//指定番号クリア機能
     function clearNumber() {
       inputNumberStr = '';
       updateDisplay();
     }
 
+//【機能不明】機能
     function deleteLastDigit() {
       inputNumberStr = inputNumberStr.slice(0, -1);
       updateDisplay();
     }
 
+//座席表更新機能
     function updateDisplay() {
       const display = document.getElementById('numberDisplay');
       display.textContent = inputNumberStr.padStart(4, '-');
     }
 
+//ID作成機能
     function generateId() {
       return 'ID' + Math.random().toString(36).substr(2, 9);
     }
 
+//登録画面入力機能
 function confirmAssign() {
   const userName = document.getElementById('userName').value.trim();
   if (inputNumberStr.length !== 4) {
     alert('4桁の数字を入力してください');
     return;
   }
-
+// ▶　使用する座席の変更確認
   const existingLog = logData.find(log => log.number === inputNumberStr && !log.checkOut);
   if (existingLog && existingLog.seatId !== selectedSeatEl.dataset.id) {
     // 移動確認モーダルの表示
@@ -190,18 +199,18 @@ function confirmAssign() {
     return;
   }
 
-  // 新規登録処理
+  // 新規登録処理（作用先不明）
   applySeatAssignment(selectedSeatEl, inputNumberStr, userName);
 }
 
-
+//座席移動機能
     function confirmSeatMove(answer) {
   document.getElementById('moveConfirmModal').style.display = 'none';
 
   if (answer && pendingMoveInfo) {
     const { log, newSeatEl, name } = pendingMoveInfo;
 
-    // 元の座席をクリア
+    // ▶元の座席をクリア
     const oldSeatEl = document.querySelector(`.seat[data-id='${log.seatId}']`);
     if (oldSeatEl) {
       const idLabel = oldSeatEl.querySelector('.seat-id-label');
@@ -209,10 +218,10 @@ function confirmAssign() {
       oldSeatEl.innerHTML = idLabel ? idLabel.outerHTML : '';
     }
 
-    // ログのseatIdを更新（checkInはそのまま）
+    // ▶ログのseatIdを更新（checkInはそのまま）
     log.seatId = newSeatEl.dataset.id;
 
-    // 新しい座席を登録状態に変更
+    // ▶新しい座席を登録状態に変更
     applySeatAssignment(newSeatEl, log.number, name);
 
     saveLogs();
@@ -222,6 +231,7 @@ function confirmAssign() {
   pendingMoveInfo = null;
 }
 
+//【機能不明】機能
 function applySeatAssignment(seatEl, number, name) {
   const firstDigit = number.charAt(0);
   seatEl.classList.remove('red', 'green', 'blue', 'orange');
@@ -235,8 +245,6 @@ if (colorClass) {
 } else {
   seatEl.classList.add('orange'); // fallback
 }
-
-
 
   const idLabel = seatEl.querySelector('.seat-id-label');
   seatEl.innerHTML = idLabel.outerHTML + `<div>${number}</div>` + (name ? `<div class="seat-label">${name}</div>` : '');
@@ -255,7 +263,7 @@ if (colorClass) {
 }
 
 
-
+//アサイン画面クローズ機能
     function closeAssignModal() {
       document.getElementById('assignModal').style.display = 'none';
       document.getElementById('userName').value = '';
@@ -265,6 +273,7 @@ if (colorClass) {
       selectedSeatEl = null;
     }
 
+//退席処理機能
     function confirmLeave(answer) {
       document.getElementById('confirmModal').style.display = 'none';
       if (answer && leaveTargetSeat) {
@@ -281,7 +290,7 @@ if (colorClass) {
       leaveTargetSeat = null;
     }
 
-
+//ログ表示機能
 function showLogs() {
   let csv = 'ID,座席番号,登録番号,名前,登録時間,退席時間\n';
   logData.forEach(log => {
@@ -292,7 +301,7 @@ function showLogs() {
   document.getElementById('logModal').style.display = 'flex';
 }
 
-
+//座席全クリア機能
     function clearAllSeats() {
       document.querySelectorAll('.seat').forEach(seat => {
         const idLabel = seat.querySelector('.seat-id-label');
@@ -310,6 +319,7 @@ function showLogs() {
         updateOccupancyRate();
     }
 
+//使用不可能座席読み込み機能
     async function loadUnavailableSeats() {
   const formData = new URLSearchParams();
   formData.append('mode', 'getUnavailableSeats');
@@ -333,6 +343,7 @@ function showLogs() {
   }
 }
 
+//使用不可能座席表示機能
 function markUnavailableSeats(unavailableSeatIds) {
   unavailableSeatIds.forEach(allSeatIds => {
     const seat = document.querySelector(`.seat[data-id='${allSeatIds}']`);
@@ -347,6 +358,7 @@ function markUnavailableSeats(unavailableSeatIds) {
   });
 }
 
+//座席利用率表示機能
     function updateOccupancyRate() {
   const allSeats = document.querySelectorAll('.seat');
   const unavailable = document.querySelectorAll('.seat.unavailable');
@@ -373,9 +385,10 @@ function markUnavailableSeats(unavailableSeatIds) {
     1階利用率：${rate1F}%　｜　2階利用率：${rate2F}%`;
 }
 
-
+//なにこれ（本来このファイルの上部に設定されるべき表示（letのため））
     let passwordInput = '';
 
+//パスワード入力機能
 function inputPasswordDigit(d) {
   if (passwordInput.length < 6) {
     passwordInput += d;
@@ -383,20 +396,24 @@ function inputPasswordDigit(d) {
   }
 }
 
+//パスワード入力欄アップデート機能（一つタップするたびに--の表示を変更）
 function updatePasswordDisplay() {
   document.getElementById('passwordDisplay').textContent = passwordInput.padStart(6, '-');
 }
 
+//パスワード入力欄C機能
 function clearPassword() {
   passwordInput = '';
   updatePasswordDisplay();
 }
 
+//パスワード入力欄最後の文字デリート機能
 function deleteLastPasswordDigit() {
   passwordInput = passwordInput.slice(0, -1);
   updatePasswordDisplay();
 }
 
+//パスワード照会機能
 async function verifyPassword() {
   const formData = new URLSearchParams();
   formData.append('mode', 'getPassword');
@@ -420,10 +437,11 @@ async function verifyPassword() {
   }
 }
 
+//座席表へ移動機能
 function openSeatView() {
   document.getElementById('selectModal').style.display = 'none';
 
-  // 統計用ログイン時刻送信
+  // ▶ 統計用ログイン時刻送信
   const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
   fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
@@ -433,36 +451,37 @@ function openSeatView() {
   }).then(res => res.json()).then(console.log).catch(console.error);
 }
 
-
+//管理者画面表示機能
 function openAdminSheet() {
   window.open('https://docs.google.com/spreadsheets/d/139WkNoBoTDNo7RddbsWPrHjRQcraW3OqpWxubm24c2U/edit?gid=0#gid=0');
 }
 
 
-    
+//タブを開いた時の初期動作
 window.addEventListener('DOMContentLoaded', async () => {
    document.getElementById('loginModal').style.display = 'flex';
 
     await loadGradeColors(); 
-  // 座席表生成
+  // ▶ 座席表生成
   createSeats();
 
-  // 使用不可席の読み込み
+  // ▶ 使用不可席の読み込み
   await loadUnavailableSeats();
 
 });
 
-
+//ログアウト画面表示機能
     function confirmLogout() {
   document.getElementById('logoutModal').style.display = 'flex';
 }
 
+//ログアウト機能
 function handleLogout(answer) {
   document.getElementById('logoutModal').style.display = 'none';
   if (!answer) return;
-
+// ▶ ログの生成
   const csv = generateCSV();
-
+// ▶ ログをスプレッドシートへ送信
   const formData = new URLSearchParams();
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
@@ -479,6 +498,7 @@ function handleLogout(answer) {
     const uniqueUsers = [...new Set(logData.map(log => log.id))];
     const count = uniqueUsers.length;
 
+    //統計データをスプレッドシートへ送信
     const statData = new URLSearchParams();
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
@@ -497,12 +517,12 @@ function handleLogout(answer) {
     setTimeout(() => {
       window.close();
     }, 1000);
-  }); // ← これで finally 閉じられます（ここが抜けてました）
+  }); 
 }
 
 
 
-    // CSV文字列を返す共通関数（再利用可）
+    // CSV文字列を返す共通関数
 function generateCSV() {
   let csv = 'ID,座席番号,登録番号,名前,登録時間,退席時間\n';
   logData.forEach(log => {
@@ -511,7 +531,7 @@ function generateCSV() {
   return csv;
 }
 
-
+//学年カラー読み込み機能
     async function loadGradeColors() {
   const formData = new URLSearchParams();
   formData.append('mode', 'getGradeColors');
