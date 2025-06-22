@@ -19,12 +19,14 @@
   grid-template-columns:
     repeat(3, 60px) 40px
     repeat(4, 60px) 40px
-    repeat(3, 60px); /* ← 幅固定 */
+    repeat(3, 60px); /* ← 3+4+3の絶対幅 */
   gap: 5px;
-  justify-content: center;
+  justify-content: start;
   margin: auto;
-  max-width: fit-content; /* ← 内容サイズに合わせる */
+  max-width: fit-content;
+  overflow-x: auto;
 }
+
     .seat {
       width: 60px;
       height: 60px;
@@ -240,8 +242,8 @@
     let inputNumberStr = '';
     let logData = JSON.parse(localStorage.getItem('seatLogs') || '[]');
 
-    const seatIds1F = Array.from({length: 70}, (_, i) => `1${String(i + 1).padStart(2, '02')}`);
-　　const seatIds2F = Array.from({length: 80}, (_, i) => `2${String(i + 1).padStart(2, '02')}`);
+    const seatIds1F = Array.from({length: 70}, (_, i) => `1${String(i + 1).padStart(2, '0')}`);
+　　const seatIds2F = Array.from({length: 80}, (_, i) => `2${String(i + 1).padStart(2, '0')}`);
 　　const allSeatIds = [...seatIds1F, ...seatIds2F];
 
 
