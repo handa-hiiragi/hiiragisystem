@@ -452,12 +452,18 @@ function confirmAssign() {
 
 function applySeatAssignment(seatEl, number, name) {
   const firstDigit = number.charAt(0);
-  seatEl.classList.add('active');
   seatEl.classList.remove('red', 'green', 'blue', 'orange');
-  if (firstDigit === '1') seatEl.classList.add('red');
-  else if (firstDigit === '2') seatEl.classList.add('green');
-  else if (firstDigit === '3') seatEl.classList.add('blue');
-  else seatEl.classList.add('orange');
+  seatEl.style.background = ''; // 旧スタイルリセット
+
+  const color = gradeColorMap[firstDigit];
+  if (color) {
+    seatEl.classList.add('active');
+    seatEl.style.background = color;
+    seatEl.style.color = '#fff';
+  } else {
+    seatEl.classList.add('active', 'orange'); // fallback
+  }
+
 
   const idLabel = seatEl.querySelector('.seat-id-label');
   seatEl.innerHTML = idLabel.outerHTML + `<div>${number}</div>` + (name ? `<div class="seat-label">${name}</div>` : '');
