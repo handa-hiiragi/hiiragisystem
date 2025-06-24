@@ -6,6 +6,8 @@
     }
     h1 {
       margin-bottom: 20px;
+     color:#006400;
+    
     }
 .seat-grid {
   display: grid;
