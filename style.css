@@ -86,7 +86,6 @@
     }
     .modal {
       background: white;
-      top: 20%; 
       padding: 40px;
       border-radius: 10px;
       width: 350px;
@@ -94,6 +93,9 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.4);
       text-align: center;
       font-size: 22px;
+
+      position: relative;
+  　　transform: translateY(-20%);
     }
     .modal input[type="text"] {
       width: 90%;
