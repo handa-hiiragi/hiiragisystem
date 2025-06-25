@@ -12,9 +12,9 @@
 .seat-grid {
   display: grid;
   grid-template-columns:
-    repeat(3, 60px) 40px
-    repeat(4, 60px) 40px
-    repeat(3, 60px); /* ← 3+4+3の絶対幅 */
+    repeat(3, 50px) 40px
+    repeat(4, 50px) 40px
+    repeat(3, 50px); /* ← 3+4+3の絶対幅 */
   gap: 5px;
   justify-content: start;
   margin: auto;
@@ -23,7 +23,7 @@
 }
 
     .seat {
-      width: 60px;
+      width: 50px;
       height: 60px;
       background: #ddd;
       border-radius: 0;
