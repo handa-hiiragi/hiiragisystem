@@ -458,8 +458,7 @@ function openAdminSheet() {
 
 
 //タブを開いた時の初期動作
-window.addEventListener('DOMContentLoaded',
-
+window.addEventListener('DOMContentLoaded',async () => {
     await loadGradeColors(); 
   // ▶ 座席表生成
   createSeats();
