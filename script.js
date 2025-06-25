@@ -428,6 +428,7 @@ async function verifyPassword() {
     if (passwordInput === result.password) {
       document.getElementById('loginModal').style.display = 'none';
       document.getElementById('settingsModal').style.display = 'flex';
+        clearPassword()
     } else {
       alert('パスワードが違います');
       clearPassword();
@@ -437,7 +438,7 @@ async function verifyPassword() {
   }
 }
 
-//座席表へ移動機能
+//座席表へ移動機能（おそらく不要な機能）
 function openSeatView() {
   document.getElementById('selectModal').style.display = 'none';
 
@@ -465,6 +466,15 @@ window.addEventListener('DOMContentLoaded',async () => {
 
   // ▶ 使用不可席の読み込み
   await loadUnavailableSeats();
+
+    //開いた時間の記録
+      const formData = new URLSearchParams();
+  formData.append('mode', 'logLoginTime');
+  fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formData.toString()
+  }).then(res => res.json()).then(console.log).catch(console.error);
 
 });
 
