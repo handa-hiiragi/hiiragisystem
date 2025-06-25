@@ -86,13 +86,14 @@
     }
     .modal {
       background: white;
+      top: 20%; 
       padding: 40px;
       border-radius: 10px;
       width: 350px;
       max-width: 90vw;
       box-shadow: 0 0 15px rgba(0,0,0,0.4);
       text-align: center;
-      font-size: 18px;
+      font-size: 22px;
     }
     .modal input[type="text"] {
       width: 90%;
