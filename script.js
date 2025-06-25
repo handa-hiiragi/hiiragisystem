@@ -136,6 +136,8 @@ if (gradeColor) {
 
 //座席選択画面表示機能
     function selectSeat(seat) {
+        inputNumberStr = '';
+　　　　　updateDisplay();　//機能するか不明（上の行を含む）
       if (seat.classList.contains('active')) {
         leaveTargetSeat = seat;
         document.getElementById('confirmModal').style.display = 'flex';
