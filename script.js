@@ -179,8 +179,7 @@ if (gradeColor) {
 
 //登録画面入力機能
 function confirmAssign() {
-    alert('動作')
-  const userName = document.getElementById('userName').value.trim();
+  //const userName = document.getElementById('userName').value.trim();
   if (inputNumberStr.length !== 4) {
     alert('4桁の数字を入力してください');
     return;
