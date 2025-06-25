@@ -23,9 +23,9 @@ function createSeats() {
 
  // ▶ 1階ラベルを追加
   const label1F = document.createElement('div');
-  label1F.textContent = '【1階】';
+  label1F.textContent = '【1 階】';
   label1F.style.gridColumn = '1 / -1';
-  label1F.style.fontSize = '30px';
+  label1F.style.fontSize = '26px';
   label1F.style.margin = '10px 0';
   label1F.style.fontWeight = 'bold';
   seatGrid.appendChild(label1F);
@@ -58,9 +58,9 @@ function createSeats() {
 
 // ▶ 2階ラベルを追加
   const label2F = document.createElement('div');
-  label2F.textContent = '【2階】';
+  label2F.textContent = '【2 階】';
   label2F.style.gridColumn = '1 / -1';
-  label2F.style.fontSize = '30px';
+  label2F.style.fontSize = '26px';
   label2F.style.margin = '10px 0';
   label2F.style.fontWeight = 'bold';
   seatGrid.appendChild(label2F);
