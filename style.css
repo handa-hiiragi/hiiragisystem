@@ -18,8 +18,7 @@
   gap: 5px;
   justify-content: start;
   margin: auto;
-  max-width: fit-content;
-  overflow-x: auto;
+  width: max-content;
 }
 
     .seat {
