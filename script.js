@@ -327,7 +327,7 @@ function showLogs() {
   formData.append('mode', 'getUnavailableSeats');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -421,7 +421,7 @@ async function verifyPassword() {
   formData.append('mode', 'getPassword');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -447,7 +447,7 @@ function openSeatView() {
   // ▶ 統計用ログイン時刻送信
   const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -474,7 +474,7 @@ window.addEventListener('DOMContentLoaded',async () => {
     //開いた時間の記録
       const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -498,7 +498,7 @@ function handleLogout(answer) {
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
 
-  fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -515,7 +515,7 @@ function handleLogout(answer) {
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
 
-    fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: statData.toString()
@@ -549,7 +549,7 @@ function generateCSV() {
   formData.append('mode', 'getGradeColors');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -573,7 +573,7 @@ async function loadAutoLogoutSettings() {
   formData.append('mode', 'getLogoutTimes');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyH5z_INfAOx4DAiANz4Bat2844Z6HWg2FUVnxuzOXENxX7TEVunAeghWbfBCUu_tph/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
