@@ -426,8 +426,8 @@ async function verifyPassword() {
     });
     const result = await res.json();
     if (passwordInput === result.password) {
-      document.getElementById('settingsModal').style.display = 'none';
-      document.getElementById('selectModal').style.display = 'flex';
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('settingsModal').style.display = 'flex';
     } else {
       alert('パスワードが違います');
       clearPassword();
@@ -458,7 +458,7 @@ function openAdminSheet() {
 
 
 //タブを開いた時の初期動作
-window.addEventListener(
+window.addEventListener('DOMContentLoaded',
 
     await loadGradeColors(); 
   // ▶ 座席表生成
