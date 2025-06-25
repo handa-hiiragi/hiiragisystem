@@ -327,7 +327,7 @@ function showLogs() {
   formData.append('mode', 'getUnavailableSeats');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -421,7 +421,7 @@ async function verifyPassword() {
   formData.append('mode', 'getPassword');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -447,7 +447,7 @@ function openSeatView() {
   // ▶ 統計用ログイン時刻送信
   const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -468,11 +468,13 @@ window.addEventListener('DOMContentLoaded',async () => {
 
   // ▶ 使用不可席の読み込み
   await loadUnavailableSeats();
+    await loadAutoLogoutSettings();
+
 
     //開いた時間の記録
       const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -496,7 +498,7 @@ function handleLogout(answer) {
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
 
-  fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -513,7 +515,7 @@ function handleLogout(answer) {
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
 
-    fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: statData.toString()
@@ -547,7 +549,7 @@ function generateCSV() {
   formData.append('mode', 'getGradeColors');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwwdkFKzC2lrk9slJ-jL_ZdKWikJJz1k187i0k3309mYE7oxgpJyhOTpdEXrwmstlw2/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -561,3 +563,76 @@ function generateCSV() {
   }
 }
 
+
+//自動ログアウト機能
+let logoutTimes = []; // 有効なログアウト時刻のリスト
+let logoutTimer = null; // setTimeout のIDを保持
+
+async function loadAutoLogoutSettings() {
+  const formData = new URLSearchParams();
+  formData.append('mode', 'getLogoutTimes');
+
+  try {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbyyJOfypRwMLTX-OludvMaGkDQ4Kq9c-EmmGlTJm9aJ-s5xsuPuL7X3KygsUl2DFJzl/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString()
+    });
+
+    const result = await res.json();
+    logoutTimes = result.times
+      .filter(row => row.enabled === true)
+      .map(row => row.time)
+      .sort(); // 文字列として時刻順にソート
+
+    scheduleNextLogout();
+    displayLogoutTime();
+
+  } catch (e) {
+    console.error("ログアウト時刻の取得に失敗", e);
+  }
+}
+
+function scheduleNextLogout() {
+  if (logoutTimer) clearTimeout(logoutTimer);
+
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+  for (const timeStr of logoutTimes) {
+    const [h, m] = timeStr.split(':').map(Number);
+    const targetMinutes = h * 60 + m;
+
+    if (targetMinutes > nowMinutes) {
+      const diffMs = (targetMinutes - nowMinutes) * 60 * 1000 - now.getSeconds() * 1000;
+      logoutTimer = setTimeout(handleLogoutTrigger, diffMs);
+      console.log(`次回自動ログアウトは ${timeStr} に設定`);
+      return;
+    }
+  }
+
+  console.log("本日の自動ログアウト対象時刻なし");
+}
+
+function handleLogoutTrigger() {
+  console.log("自動ログアウト実行");
+  confirmLogout(); // 既存のログアウト処理を呼ぶ
+}
+
+function displayLogoutTime() {
+  const logoutDisplay = document.getElementById('logoutTimeDisplay');
+  if (!logoutDisplay) return;
+
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+  for (const timeStr of logoutTimes) {
+    const [h, m] = timeStr.split(':').map(Number);
+    const targetMinutes = h * 60 + m;
+    if (targetMinutes > nowMinutes) {
+      logoutDisplay.textContent = `次回自動ログアウト時刻：${timeStr}`;
+      return;
+    }
+  }
+  logoutDisplay.textContent = '本日自動ログアウトなし';
+}
