@@ -9,7 +9,7 @@ const seatGrid = document.getElementById('seatGrid');
     let logData = JSON.parse(localStorage.getItem('seatLogs') || '[]');
 
 function getScriptURL() {
-  return 'https://script.google.com/macros/s/AKfycbxXRnAysjlToyMInEipkPAyJRojssKbZQyP9Cd8aPWSyw1uDn-L-IB59eXrZOqc8wG-/exec';
+  return 'https://script.google.com/macros/s/AKfycbzuzcMpsbX4wltGd-A7UQ8kJh8HWGLb-a1K7yw6DtFLTYh7fhGFfOAPTxelHAqttpDM/exec';
 }
 
 //座席の作成方法を設定
