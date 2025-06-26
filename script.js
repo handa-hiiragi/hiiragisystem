@@ -8,6 +8,10 @@ const seatGrid = document.getElementById('seatGrid');
     let gradeColorMap = {};
     let logData = JSON.parse(localStorage.getItem('seatLogs') || '[]');
 
+function getScriptURL() {
+  return 'https://script.google.com/macros/s/AKfycbxXRnAysjlToyMInEipkPAyJRojssKbZQyP9Cd8aPWSyw1uDn-L-IB59eXrZOqc8wG-/exec';
+}
+
 //座席の作成方法を設定
     const seatIds1F = Array.from({length: 70}, (_, i) => `1${String(i + 1).padStart(2, '0')}`);
 　　const seatIds2F = Array.from({length: 80}, (_, i) => `2${String(i + 1).padStart(2, '0')}`);
@@ -327,7 +331,7 @@ function showLogs() {
   formData.append('mode', 'getUnavailableSeats');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+    const res = await fetch(getScriptURL(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -421,7 +425,7 @@ async function verifyPassword() {
   formData.append('mode', 'getPassword');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+    const res = await fetch(getScriptURL(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -447,7 +451,7 @@ function openSeatView() {
   // ▶ 統計用ログイン時刻送信
   const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+  fetch(getScriptURL(), {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -475,7 +479,7 @@ window.addEventListener('DOMContentLoaded',async () => {
     //開いた時間の記録
       const formData = new URLSearchParams();
   formData.append('mode', 'logLoginTime');
-  fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+  fetch(getScriptURL(), {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
@@ -501,7 +505,7 @@ function handleLogout(answer) {
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
 
-  fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+  fetch(getScriptURL(), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -518,7 +522,7 @@ function handleLogout(answer) {
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
 
-    fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+    fetch(getScriptURL(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: statData.toString()
@@ -552,7 +556,7 @@ function generateCSV() {
   formData.append('mode', 'getGradeColors');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+    const res = await fetch(getScriptURL(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
@@ -576,7 +580,7 @@ async function loadAutoLogoutSettings() {
   formData.append('mode', 'getLogoutTimes');
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyoDdpPCrZB6t15MghT8aqgKWu9OIqqx1NPqDSJBlF1koyGlOnIk4lDzpYiyBquK1A5/exec', {
+    const res = await fetch(getScriptURL(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString()
