@@ -490,26 +490,26 @@ window.addEventListener('DOMContentLoaded',async () => {
 });
 
 //ログアウト画面表示機能
-    function confirmLogout() {
-  document.getElementById('logoutModal').style.display = 'flex';
-}
-
-//ログアウト機能
 function handleLogout(answer) {
   document.getElementById('logoutModal').style.display = 'none';
   if (!answer) return;
-// ▶ ログの生成
+
+  executeLogout();
+}
+
+//ログアウト機能
+function executeLogout() {
+  // ▶ ログの生成
   const csv = generateCSV();
-// ▶ ログをスプレッドシートへ送信
+
+  // ▶ ログをスプレッドシートへ送信
   const formData = new URLSearchParams();
   formData.append('mode', 'saveCSV');
   formData.append('csv', csv);
 
   fetch(getScriptURL(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
   })
   .then(res => res.json())
@@ -517,7 +517,7 @@ function handleLogout(answer) {
     const uniqueUsers = [...new Set(logData.map(log => log.id))];
     const count = uniqueUsers.length;
 
-    //統計データをスプレッドシートへ送信
+    // ▶統計データをスプレッドシートへ送信
     const statData = new URLSearchParams();
     statData.append('mode', 'logLogoutData');
     statData.append('count', count);
@@ -536,10 +536,8 @@ function handleLogout(answer) {
     setTimeout(() => {
       window.close();
     }, 1000);
-  }); 
+  });
 }
-
-
 
     // CSV文字列を返す共通関数
 function generateCSV() {
@@ -623,8 +621,9 @@ function scheduleNextLogout() {
 
 function handleLogoutTrigger() {
   console.log("自動ログアウト実行");
- handleLogout(true); // 既存のログアウト処理を呼ぶ
+  executeLogout();  // 確認を飛ばして直接ログアウト処理を実行
 }
+
 
 function displayLogoutTime() {
   const logoutDisplay = document.getElementById('logoutTimeDisplay');
