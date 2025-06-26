@@ -462,13 +462,14 @@ function openAdminSheet() {
 
 //タブを開いた時の初期動作
 window.addEventListener('DOMContentLoaded',async () => {
-    await loadGradeColors(); 
-  // ▶ 座席表生成
+      // ▶ 座席表生成
   createSeats();
+  await loadUnavailableSeats();
+
 
   // ▶ 使用不可席の読み込み
-  await loadUnavailableSeats();
-    await loadAutoLogoutSettings();
+
+  await loadGradeColors(); 
 
 
     //開いた時間の記録
@@ -479,6 +480,8 @@ window.addEventListener('DOMContentLoaded',async () => {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: formData.toString()
   }).then(res => res.json()).then(console.log).catch(console.error);
+
+  await loadAutoLogoutSettings();
 
 });
 
