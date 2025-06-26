@@ -616,7 +616,7 @@ function scheduleNextLogout() {
 
 function handleLogoutTrigger() {
   console.log("自動ログアウト実行");
-  confirmLogout(); // 既存のログアウト処理を呼ぶ
+ handleLogout(true); // 既存のログアウト処理を呼ぶ
 }
 
 function displayLogoutTime() {
