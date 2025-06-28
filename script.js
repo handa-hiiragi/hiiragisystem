@@ -109,16 +109,31 @@ function insertSpacer() {
     }
 
 //退席処理機能
-    function restoreSeatState() {
-      logData.forEach(log => {
-        if (!log.checkOut) {
-          const seatEl = document.querySelector(`.seat[data-id='${log.allSeatIds}']`);
-          if (seatEl) {
-            seatEl.classList.add('active');
-            seatEl.classList.remove('red', 'green', 'blue', 'orange');
-        const firstDigit = inputNumberStr.charAt(0);
-selectedSeatEl.classList.remove('red', 'green', 'blue', 'orange');
-selectedSeatEl.style.background = ''; // 前の色をリセット
+function restoreSeatState() {
+  logData.forEach(log => {
+    if (!log.checkOut) {
+      const seatEl = document.querySelector(`.seat[data-id='${log.seatId}']`);
+      if (seatEl) {
+        const firstDigit = log.number.charAt(0);
+        seatEl.classList.remove('red', 'green', 'blue', 'orange');
+        seatEl.style.background = '';
+
+        const gradeColor = gradeColorMap[firstDigit];
+        seatEl.classList.add('active');
+        if (gradeColor) {
+          seatEl.style.background = gradeColor;
+          seatEl.style.color = '#fff';
+        } else {
+          seatEl.classList.add('orange');
+        }
+
+        const idLabel = seatEl.querySelector('.seat-id-label');
+        seatEl.innerHTML = idLabel.outerHTML + `<div>${log.number}</div>` + (log.name ? `<div class="seat-label">${log.name}</div>` : '');
+      }
+    }
+  });
+}
+
 
 // スプレッドシートで読み込んだ色を使う
 const gradeColor = gradeColorMap[firstDigit];
