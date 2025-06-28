@@ -465,15 +465,6 @@ function openAdminSheet() {
 
 
 //タブを開いた時の初期動作
-window.addEventListener('DOMContentLoaded',async () => {
-      // ▶ 座席表生成
-  createSeats();
-      // ▶ 使用不可席の読み込み
-  await loadUnavailableSeats();
-
-  await loadGradeColors(); 
-
-
     //開いた時間の記録
 window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('loadingOverlay').style.display = 'flex';
