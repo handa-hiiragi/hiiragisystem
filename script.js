@@ -468,26 +468,39 @@ function openAdminSheet() {
 window.addEventListener('DOMContentLoaded',async () => {
       // ▶ 座席表生成
   createSeats();
+      // ▶ 使用不可席の読み込み
   await loadUnavailableSeats();
-
-
-  // ▶ 使用不可席の読み込み
 
   await loadGradeColors(); 
 
 
     //開いた時間の記録
-      const formData = new URLSearchParams();
-  formData.append('mode', 'logLoginTime');
-  fetch(getScriptURL(), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: formData.toString()
-  }).then(res => res.json()).then(console.log).catch(console.error);
+window.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('loadingOverlay').style.display = 'flex';
 
-  await loadAutoLogoutSettings();
+  try {
+    await loadGradeColors();
+    createSeats();
+    await loadUnavailableSeats();
+    await loadAutoLogoutSettings();
 
+    // 開いた時間の記録
+    const formData = new URLSearchParams();
+    formData.append('mode', 'logLoginTime');
+    await fetch(getScriptURL(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString()
+    });
+
+  } catch (e) {
+    alert("初期読み込み中にエラーが発生しました");
+    console.error(e);
+  } finally {
+    document.getElementById('loadingOverlay').style.display = 'none';
+  }
 });
+
 
 //ログアウト画面表示機能
 function handleLogout(answer) {
