@@ -124,7 +124,7 @@ function restoreSeatState() {
           seatEl.style.background = gradeColor;
           seatEl.style.color = '#fff';
         } else {
-          seatEl.classList.add('orange');
+          seatEl.classList.add('active', 'orange');
         }
 
         const idLabel = seatEl.querySelector('.seat-id-label');
@@ -134,24 +134,6 @@ function restoreSeatState() {
   });
 }
 
-
-// スプレッドシートで読み込んだ色を使う
-const gradeColor = gradeColorMap[firstDigit];
-if (gradeColor) {
-  selectedSeatEl.classList.add('active');
-  selectedSeatEl.style.background = gradeColor;
-  selectedSeatEl.style.color = '#fff';
-} else {
-  // スプレッドシートに色が無い場合のフォールバック
-  selectedSeatEl.classList.add('active', 'orange');
-}
-
-            const idLabel = seatEl.querySelector('.seat-id-label');
-            seatEl.innerHTML = idLabel.outerHTML + `<div>${log.number}</div>` + (log.name ? `<div class="seat-label">${log.name}</div>` : '');
-          }
-        }
-      });
-    }
 
 //座席選択画面表示機能
     function selectSeat(seat) {
