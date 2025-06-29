@@ -649,3 +649,15 @@ function displayLogoutTime() {
 function showLogoutConfirm() {
   document.getElementById('logoutModal').style.display = 'flex';
 }
+
+
+function showClearConfirm() {
+  document.getElementById('clearConfirmModal').style.display = 'flex';
+}
+
+function handleClearConfirm(answer) {
+  document.getElementById('clearConfirmModal').style.display = 'none';
+  if (answer) {
+    clearAllSeats();
+  }
+}
