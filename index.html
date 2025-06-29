@@ -133,9 +133,10 @@
   <script src="script.js"></script>
 
     <!--全クリア確認モーダル -->
-  <div id="clearConfirmModal" class="modal">
-  <div class="modal-content">
-    <p>座席情報を全てクリアしますか？</p>
+
+  <div class="overlay" id="clearConfirmModal">
+  <div class="modal">
+    <h2>座席情報を全てクリアしますか？</h2>
     <button onclick="handleClearConfirm(true)">はい</button>
     <button onclick="handleClearConfirm(false)">いいえ</button>
   </div>
