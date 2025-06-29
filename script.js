@@ -643,3 +643,9 @@ function displayLogoutTime() {
   }
   logoutDisplay.textContent = '本日自動ログアウトなし';
 }
+
+
+
+function showLogoutConfirm() {
+  document.getElementById('logoutModal').style.display = 'flex';
+}
