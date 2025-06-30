@@ -486,7 +486,7 @@ function confirmAssign() {
     const fromSeat = existingLog.seatId;
     const toSeat = selectedSeatEl.dataset.id;
     document.getElementById('moveConfirmText').textContent =
-      `${inputNumberStr} は現在 ${fromSeat} を利用中です。\n${fromSeat} から ${toSeat} に移動しますか？`;
+      `${inputNumberStr} さんは\n現在 ${fromSeat} を利用中です。\n${fromSeat} 番から ${toSeat} 番に移動しますか？`;
 
     pendingMoveInfo = { log: existingLog, newSeatEl: selectedSeatEl, name: userName };
     document.getElementById('assignModal').style.display = 'none';
