@@ -469,7 +469,7 @@ function restoreSeatState() {
 
 //ID作成機能
     function generateId() {
-      return 'ID' + Math.random().toString(36).substr(2, 9);
+      return Math.random().toString(36).substr(2, 9);
     }
 
 //登録画面入力機能
