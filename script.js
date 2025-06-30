@@ -176,8 +176,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     markUnavailableSeats(unavailableSeats);
     updateOccupancyRate(); 
   } catch (error) {
-    alert("読み込みエラーが発生しました");
-    console.error("読み込みエラー", error);
+    alert("利用不可能座席の読み込みに失敗しました");
+    console.error("UnavailableSeats 読み込みエラー", error);
   }
 }
 //■使用不可能座席読み込み機能（終）■
