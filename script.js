@@ -308,9 +308,12 @@ function executeLogout() {
     clearAllSeats();
     saveLogs();
 
-    setTimeout(() => {
-      window.close();
-    }, 1000);
+    //setTimeout(() => {
+     // window.close();
+   // }, 1000);
+
+          // ログアウト完了モーダル表示
+    document.getElementById('logoutCompleteModal').style.display = 'flex';
   });
 }
 //★★ここまでログアウト機能★★
@@ -369,9 +372,17 @@ function showLogs() {
 }
 
 //管理者画面表示機能
-function openAdminSheet() {
-  window.open('https://docs.google.com/spreadsheets/d/139WkNoBoTDNo7RddbsWPrHjRQcraW3OqpWxubm24c2U/edit?gid=0#gid=0');
+function showAdminConfirm() {
+  document.getElementById('adminConfirmModal').style.display = 'flex';
 }
+
+function handleAdminConfirm(answer) {
+  document.getElementById('adminConfirmModal').style.display = 'none';
+  if (answer) {
+    window.open('https://docs.google.com/spreadsheets/d/139WkNoBoTDNo7RddbsWPrHjRQcraW3OqpWxubm24c2U/edit?gid=0#gid=0');
+  }
+}
+
 
 //座席全クリア機能
     function clearAllSeats() {
