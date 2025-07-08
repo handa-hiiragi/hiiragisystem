@@ -10,6 +10,8 @@ const seatGrid = document.getElementById('seatGrid');
     let passwordInput = '';
     let logoutTimes = []; // 有効なログアウト時刻のリスト
     let logoutTimer = null; // setTimeout のIDを保持
+    let is2FUnlocked = false; // 2階の解放状態（初期はロック）
+
 
 function getScriptURL() {
   return 'https://script.google.com/macros/s/AKfycbzuzcMpsbX4wltGd-A7UQ8kJh8HWGLb-a1K7yw6DtFLTYh7fhGFfOAPTxelHAqttpDM/exec';
@@ -624,34 +626,38 @@ if (colorClass) {
   document.getElementById('occupancyRate').innerHTML = `
     1階利用率：${rate1F}%　｜　2階利用率：${rate2F}%`;
 
+// 二階の制限処理（60%未満なら初期ロック、超えたら解放して以後ロックしない）
 const overlay = document.getElementById('overlay2F');
 
-if (rate1F < 60) {
-  // 2階をロック
-  overlay.style.display = 'flex';
+if (!is2FUnlocked) {
+  if (rate1F < 60) {
+    // ロックを表示
+    overlay.style.display = 'flex';
 
-  // 2階の座席をクリック不可に
-  seatIds2F.forEach(id => {
-    const seat = document.querySelector(`.seat[data-id='${id}']`);
-    if (seat && !seat.classList.contains('unavailable')) {
-      seat.classList.add('disabled-2f');
-      seat.style.pointerEvents = 'none';
-      seat.style.opacity = '0.4';
-    }
-  });
-} else {
-  // 2階を解放
-  overlay.style.display = 'none';
-  seatIds2F.forEach(id => {
-    const seat = document.querySelector(`.seat[data-id='${id}']`);
-    if (seat && !seat.classList.contains('unavailable')) {
-      seat.classList.remove('disabled-2f');
-      seat.style.pointerEvents = '';
-      seat.style.opacity = '';
-    }
-  });
+    seatIds2F.forEach(id => {
+      const seat = document.querySelector(`.seat[data-id='${id}']`);
+      if (seat && !seat.classList.contains('unavailable')) {
+        seat.classList.add('disabled-2f');
+        seat.style.pointerEvents = 'none';
+        seat.style.opacity = '0.4';
+      }
+    });
+
+  } else {
+    // 初めて60%を超えた → 解放
+    is2FUnlocked = true;
+    overlay.style.display = 'none';
+
+    seatIds2F.forEach(id => {
+      const seat = document.querySelector(`.seat[data-id='${id}']`);
+      if (seat && !seat.classList.contains('unavailable')) {
+        seat.classList.remove('disabled-2f');
+        seat.style.pointerEvents = '';
+        seat.style.opacity = '';
+      }
+    });
+  }
 }
-
 }
 
 
