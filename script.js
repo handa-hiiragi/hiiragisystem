@@ -623,6 +623,35 @@ if (colorClass) {
 
   document.getElementById('occupancyRate').innerHTML = `
     1階利用率：${rate1F}%　｜　2階利用率：${rate2F}%`;
+
+const overlay = document.getElementById('overlay2F');
+
+if (rate1F < 60) {
+  // 2階をロック
+  overlay.style.display = 'flex';
+
+  // 2階の座席をクリック不可に
+  seatIds2F.forEach(id => {
+    const seat = document.querySelector(`.seat[data-id='${id}']`);
+    if (seat && !seat.classList.contains('unavailable')) {
+      seat.classList.add('disabled-2f');
+      seat.style.pointerEvents = 'none';
+      seat.style.opacity = '0.4';
+    }
+  });
+} else {
+  // 2階を解放
+  overlay.style.display = 'none';
+  seatIds2F.forEach(id => {
+    const seat = document.querySelector(`.seat[data-id='${id}']`);
+    if (seat && !seat.classList.contains('unavailable')) {
+      seat.classList.remove('disabled-2f');
+      seat.style.pointerEvents = '';
+      seat.style.opacity = '';
+    }
+  });
+}
+
 }
 
 
