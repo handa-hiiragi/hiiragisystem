@@ -14,7 +14,7 @@ const seatGrid = document.getElementById('seatGrid');
 
 
 function getScriptURL() {
-  return 'https://script.google.com/macros/s/AKfycbzuzcMpsbX4wltGd-A7UQ8kJh8HWGLb-a1K7yw6DtFLTYh7fhGFfOAPTxelHAqttpDM/exec';
+  return 'https://script.google.com/macros/s/AKfycbywSY_TX4wDGUPEikeNfE99WxjYhXThELThbn_wNcsujXs5EvXxAHL2LZtZ8JAABdMH/exec';
 }
 //初期設定おわり
 
@@ -213,10 +213,15 @@ async function loadAutoLogoutSettings() {
     });
 
     const result = await res.json();
+    const today = new Date();
+    const day = today.getDay(); // 0=日, 6=土
+
+    const isWeekend = (day === 0 || day === 6); // 土日
+
     logoutTimes = result.times
-      .filter(row => row.enabled === true)
+      .filter(row => isWeekend ? row.enabledB : row.enabledA)
       .map(row => row.time)
-      .sort(); // 文字列として時刻順にソート
+      .sort(); // 文字列で時刻順にソート
 
     scheduleNextLogout();
     displayLogoutTime();
@@ -225,6 +230,7 @@ async function loadAutoLogoutSettings() {
     console.error("ログアウト時刻の取得に失敗", e);
   }
 }
+
 
 function scheduleNextLogout() {
   if (logoutTimer) clearTimeout(logoutTimer);
