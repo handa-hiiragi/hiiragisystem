@@ -632,38 +632,37 @@ if (colorClass) {
   document.getElementById('occupancyRate').innerHTML = `
     1階利用率：${rate1F}%　｜　2階利用率：${rate2F}%`;
 
-// 二階の制限処理（60%未満なら初期ロック、超えたら解放して以後ロックしない）
-const overlay = document.getElementById('overlay2F');
+// 二階の制限処理（60%未満なら初期ロック、超えたら解放して以後ロックしない）★一時的に機能停止
+//const overlay = document.getElementById('overlay2F');
 
-if (!is2FUnlocked) {
-  if (rate1F < 60) {
-    // ロックを表示
-    overlay.style.display = 'flex';
+//if (!is2FUnlocked) {
+//  if (rate1F < 60) {
+//    // ロックを表示
+//    overlay.style.display = 'flex';
 
-    seatIds2F.forEach(id => {
-      const seat = document.querySelector(`.seat[data-id='${id}']`);
-      if (seat && !seat.classList.contains('unavailable')) {
-        seat.classList.add('disabled-2f');
-        seat.style.pointerEvents = 'none';
-        seat.style.opacity = '0.4';
-      }
-    });
-
-  } else {
+//    seatIds2F.forEach(id => {
+//      const seat = document.querySelector(`.seat[data-id='${id}']`);
+//      if (seat && !seat.classList.contains('unavailable')) {
+//        seat.classList.add('disabled-2f');
+//        seat.style.pointerEvents = 'none';
+//        seat.style.opacity = '0.4';
+//      }
+//    });
+//  } else {
     // 初めて60%を超えた → 解放
-    is2FUnlocked = true;
-    overlay.style.display = 'none';
+//    is2FUnlocked = true;
+//    overlay.style.display = 'none';
 
-    seatIds2F.forEach(id => {
-      const seat = document.querySelector(`.seat[data-id='${id}']`);
-      if (seat && !seat.classList.contains('unavailable')) {
-        seat.classList.remove('disabled-2f');
-        seat.style.pointerEvents = '';
-        seat.style.opacity = '';
-      }
-    });
-  }
-}
+//    seatIds2F.forEach(id => {
+//      const seat = document.querySelector(`.seat[data-id='${id}']`);
+//      if (seat && !seat.classList.contains('unavailable')) {
+//        seat.classList.remove('disabled-2f');
+ //       seat.style.pointerEvents = '';
+ //       seat.style.opacity = '';
+//      }
+//    });
+//  }
+//}
 }
 
 
