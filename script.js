@@ -517,6 +517,8 @@ function confirmAssign() {
 
   // 新規登録処理
   applySeatAssignment(selectedSeatEl, inputNumberStr, userName);
+    updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
+
 }
 
 //座席移動機能
@@ -542,7 +544,11 @@ function confirmAssign() {
 
     saveLogs();
     updateOccupancyRate();
-    updateVirtualSeatStatus(seatId, "occupied");
+// 移動後の処理
+updateVirtualSeatStatus(oldSeatEl.dataset.id, "empty");
+updateVirtualSeatStatus(log.seatId, "occupied");
+
+
 
   }
 
