@@ -579,10 +579,10 @@ if (colorClass) {
     logData.push({ id, seatId: seatEl.dataset.id, number, name, checkIn: now, checkOut: '' });
     saveLogs();
   }
-
+updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
   closeAssignModal();
   updateOccupancyRate();
-updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
+
 }
 
 
