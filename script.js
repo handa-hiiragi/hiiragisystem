@@ -408,6 +408,8 @@ function handleAdminConfirm(answer) {
       logData = [];
       localStorage.removeItem('seatLogs');
         updateOccupancyRate();
+        updateVirtualSeatStatus(seatId, "empty");
+
     }
 //★★ここまで管理者設定画面内の機能★★
 
@@ -540,6 +542,8 @@ function confirmAssign() {
 
     saveLogs();
     updateOccupancyRate();
+    updateVirtualSeatStatus(seatId, "occupied");
+
   }
 
   pendingMoveInfo = null;
@@ -574,6 +578,7 @@ if (colorClass) {
 
   closeAssignModal();
   updateOccupancyRate();
+  updateVirtualSeatStatus(seatId, "occupied");
 }
 
 
@@ -600,6 +605,7 @@ if (colorClass) {
         if (log) log.checkOut = now;
         saveLogs();
         updateOccupancyRate(); 
+        updateVirtualSeatStatus(seatId, "empty");
       }
       leaveTargetSeat = null;
     }
@@ -715,4 +721,21 @@ async function verifyPassword() {
   } catch (e) {
     alert('パスワード取得に失敗しました');
   }
+}
+
+
+function updateVirtualSeatStatus(seatId, status) {
+  fetch('https://script.google.com/macros/s/AKfycbzpM850Pq9K1xKU4kbVe-evbz8axC45t0yyZ1TDkiyXvC_ScqbGFF4NdOBuiYl69fTo/exec', {
+    method: "POST",
+    body: JSON.stringify({
+      action: "updateVirtualSeat",
+      seatId: seatId,
+      status: status
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).catch(error => {
+    console.error("VirtualSeat 更新エラー:", error);
+  });
 }
