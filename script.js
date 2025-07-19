@@ -408,7 +408,6 @@ function handleAdminConfirm(answer) {
       logData = [];
       localStorage.removeItem('seatLogs');
         updateOccupancyRate();
-        updateVirtualSeatStatus(seatId, "empty");
 
     }
 //★★ここまで管理者設定画面内の機能★★
@@ -517,7 +516,6 @@ function confirmAssign() {
 
   // 新規登録処理
   applySeatAssignment(selectedSeatEl, inputNumberStr, userName);
-    updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
 
 }
 
@@ -584,7 +582,7 @@ if (colorClass) {
 
   closeAssignModal();
   updateOccupancyRate();
-  updateVirtualSeatStatus(seatId, "occupied");
+updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
 }
 
 
