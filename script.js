@@ -729,17 +729,21 @@ async function verifyPassword() {
 
 
 function updateVirtualSeatStatus(seatId, status) {
-  fetch('https://script.google.com/macros/s/AKfycbzpM850Pq9K1xKU4kbVe-evbz8axC45t0yyZ1TDkiyXvC_ScqbGFF4NdOBuiYl69fTo/exec', {
+  fetch("https://script.google.com/macros/s/AKfycby3PE9HmSM5PCl2stPxsZf0Sr9giWgp3ceTu8EKoQKZBe0mBEePf0yAP-3-MF7SX4u8/exec", {
     method: "POST",
-    body: JSON.stringify({
-      action: "updateVirtualSeat",
-      seatId: seatId,
-      status: status
-    }),
     headers: {
       "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ seatId, status })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (!data.success) {
+      console.error("VirtualSeat update failed:", data.message);
     }
-  }).catch(error => {
-    console.error("VirtualSeat 更新エラー:", error);
+  })
+  .catch(error => {
+    console.error("Error updating VirtualSeat:", error);
   });
 }
+
