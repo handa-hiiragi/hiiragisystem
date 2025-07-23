@@ -138,7 +138,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
+window.addEventListener('beforeunload', (e) => {
   const message = 'このシステムではリロードはできません。'
 　　　　e.preventDefault()
 　　　　e.returnValue = message
