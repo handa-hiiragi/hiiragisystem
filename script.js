@@ -143,7 +143,7 @@ window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
 　　　　e.preventDefault()
 　　　　e.returnValue = message
 　　　　return message
-})
+});
 //■読み込み機能全体統括（終）以下詳細機能■
 
 //■学年カラー読み込み機能■
