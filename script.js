@@ -203,6 +203,10 @@ function markUnavailableSeats(unavailableSeatIds) {
       seat.style.cursor = "not-allowed";
       seat.style.pointerEvents = "none";
       seat.title = "使用不可";
+
+        // 「使用不可」表示を設定
+      const idLabel = seat.querySelector('.seat-id-label');
+      seat.innerHTML = idLabel ? idLabel.outerHTML + `<div>使用不可</div>` : `<div>使用不可</div>`;
     }
   });
 }
