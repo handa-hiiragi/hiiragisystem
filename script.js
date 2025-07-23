@@ -136,6 +136,14 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('loadingOverlay').style.display = 'none';
   }
 });
+
+
+window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
+  const message = 'このシステムではリロードはできません。'
+　　　　e.preventDefault()
+　　　　e.returnValue = message
+　　　　return message
+})
 //■読み込み機能全体統括（終）以下詳細機能■
 
 //■学年カラー読み込み機能■
@@ -543,8 +551,8 @@ function confirmAssign() {
     saveLogs();
     updateOccupancyRate();
 // 移動後の処理
-updateVirtualSeatStatus(oldSeatEl.dataset.id, "empty");
-updateVirtualSeatStatus(log.seatId, "occupied");
+//updateVirtualSeatStatus(oldSeatEl.dataset.id, "empty");
+//updateVirtualSeatStatus(log.seatId, "occupied");
 
 
 
@@ -579,7 +587,7 @@ if (colorClass) {
     logData.push({ id, seatId: seatEl.dataset.id, number, name, checkIn: now, checkOut: '' });
     saveLogs();
   }
-updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
+//updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
   closeAssignModal();
   updateOccupancyRate();
 
@@ -609,7 +617,7 @@ updateVirtualSeatStatus(seatEl.dataset.id, "occupied");
         if (log) log.checkOut = now;
         saveLogs();
         updateOccupancyRate(); 
-        updateVirtualSeatStatus(seatId, "empty");
+//        updateVirtualSeatStatus(seatId, "empty");
       }
       leaveTargetSeat = null;
     }
@@ -727,23 +735,23 @@ async function verifyPassword() {
   }
 }
 
-
-function updateVirtualSeatStatus(seatId, status) {
-  fetch("https://script.google.com/macros/s/AKfycby3PE9HmSM5PCl2stPxsZf0Sr9giWgp3ceTu8EKoQKZBe0mBEePf0yAP-3-MF7SX4u8/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ seatId, status })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (!data.success) {
-      console.error("VirtualSeat update failed:", data.message);
-    }
-  })
-  .catch(error => {
-    console.error("Error updating VirtualSeat:", error);
-  });
-}
+//外部で座席利用状況を確認する機能
+//function updateVirtualSeatStatus(seatId, status) {
+//  fetch("https://script.google.com/macros/s/AKfycby3PE9HmSM5PCl2stPxsZf0Sr9giWgp3ceTu8EKoQKZBe0mBEePf0yAP-3-MF7SX4u8/exec", {
+//    method: "POST",
+//    headers: {
+//      "Content-Type": "application/json"
+//    },
+//    body: JSON.stringify({ seatId, status })
+//  })
+//  .then(response => response.json())
+//  .then(data => {
+//    if (!data.success) {
+//      console.error("VirtualSeat update failed:", data.message);
+//    }
+//  })
+//  .catch(error => {
+//    console.error("Error updating VirtualSeat:", error);
+//  });
+//}
 
