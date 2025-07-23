@@ -206,7 +206,7 @@ function markUnavailableSeats(unavailableSeatIds) {
 
         // 「使用不可」表示を設定
       const idLabel = seat.querySelector('.seat-id-label');
-      seat.innerHTML = idLabel ? idLabel.outerHTML + `<div>使用不可</div>` : `<div>使用不可</div>`;
+      seat.innerHTML = idLabel ? idLabel.outerHTML + `<div style="font-size: 6px;">使用不可</div>` : `<div style="font-size: 6px;">使用不可</div>`;
     }
   });
 }
