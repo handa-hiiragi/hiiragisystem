@@ -116,9 +116,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('loadingOverlay').style.display = 'flex';
 
   try {
-    await loadGradeColors();
     createSeats();
     await loadUnavailableSeats();
+    await loadGradeColors();
     await loadAutoLogoutSettings();
 
     const formData = new URLSearchParams();
@@ -758,4 +758,5 @@ async function verifyPassword() {
 //    console.error("Error updating VirtualSeat:", error);
 //  });
 //}
+
 
