@@ -55,6 +55,23 @@
       background: #f1a983;
       color: white;
     }
+.seat.red {
+  background-color: #e74c3c;
+  color: #fff;
+}
+.seat.green {
+  background-color: #2ecc71;
+  color: #fff;
+}
+.seat.blue {
+  background-color: #3498db;
+  color: #fff;
+}
+.seat.orange {
+  background-color: #f39c12;
+  color: #fff;
+}
+
     .seat-label {
       font-size: 12px;
       position: absolute;
@@ -176,3 +193,4 @@
   background: rgba(0,0,0,0.7);
   border-radius: 10px;
 }
+
