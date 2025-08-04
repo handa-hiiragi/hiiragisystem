@@ -432,23 +432,22 @@ function handleAdminConfirm(answer) {
       localStorage.setItem('seatLogs', JSON.stringify(logData));
     }
 
-//退席処理機能
+//退席処理機能(現在修正処理中)
+
 function restoreSeatState() {
   logData.forEach(log => {
     if (!log.checkOut) {
       const seatEl = document.querySelector(`.seat[data-id='${log.seatId}']`);
       if (seatEl) {
         const firstDigit = log.number.charAt(0);
-        seatEl.classList.remove('red', 'green', 'blue', 'orange');
-        seatEl.style.background = '';
+        const colorClass = gradeColorMap[firstDigit];
 
-        const gradeColor = gradeColorMap[firstDigit];
+        seatEl.classList.remove('red', 'green', 'blue', 'orange');
         seatEl.classList.add('active');
-        if (gradeColor) {
-          seatEl.style.background = gradeColor;
-          seatEl.style.color = '#fff';
+        if (colorClass) {
+          seatEl.classList.add(colorClass);
         } else {
-          seatEl.classList.add('active', 'orange');
+          seatEl.classList.add('orange'); // fallback
         }
 
         const idLabel = seatEl.querySelector('.seat-id-label');
@@ -457,6 +456,7 @@ function restoreSeatState() {
     }
   });
 }
+
 
 
 //座席選択画面表示機能
@@ -758,5 +758,6 @@ async function verifyPassword() {
 //    console.error("Error updating VirtualSeat:", error);
 //  });
 //}
+
 
 
