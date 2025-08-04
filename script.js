@@ -741,7 +741,7 @@ async function verifyPassword() {
 
 //外部で座席利用状況を確認する機能
 function updateVirtualSeatStatus(seatId, status) {
-  fetch('https://script.google.com/macros/s/AKfycbx-hfCAgJzLTV-xyUE76mwDGjLO1uaqOEaPGyXpEDE2Y6Y-QDP6gGQUM1MFxKhZkC8Y/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbzS-fRkCy6FdiUxSDw2GG1u_c1fjit8MBIOZZAPHfKUeGFbbWMnCKp6IhZe5CBkn0lQ/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -758,6 +758,7 @@ function updateVirtualSeatStatus(seatId, status) {
     console.error(`座席 ${seatId} の状態更新失敗:`, err);
   });
 }
+
 
 
 
