@@ -555,8 +555,8 @@ function confirmAssign() {
     saveLogs();
     updateOccupancyRate();
 // 移動後の処理
-    updateVirtualSeatStatus(log.seatId, 1); // 新しい席：使用中
-    updateVirtualSeatStatus(oldSeatEl.dataset.id, 2); // 古い席：空席
+//    updateVirtualSeatStatus(log.seatId, 1); // 新しい席：使用中
+//    updateVirtualSeatStatus(oldSeatEl.dataset.id, 2); // 古い席：空席
 
 
 
@@ -591,7 +591,7 @@ if (colorClass) {
     logData.push({ id, seatId: seatEl.dataset.id, number, name, checkIn: now, checkOut: '' });
     saveLogs();
   }
-  updateVirtualSeatStatus(seatEl.dataset.id, 1);
+//  updateVirtualSeatStatus(seatEl.dataset.id, 1);
   closeAssignModal();
   updateOccupancyRate();
 
@@ -621,7 +621,7 @@ if (colorClass) {
         if (log) log.checkOut = now;
         saveLogs();
         updateOccupancyRate(); 
-    updateVirtualSeatStatus(seatId, 2);
+//    updateVirtualSeatStatus(seatId, 2);
       }
       leaveTargetSeat = null;
     }
@@ -740,24 +740,25 @@ async function verifyPassword() {
 }
 
 //外部で座席利用状況を確認する機能
-function updateVirtualSeatStatus(seatId, status) {
-  fetch('https://script.google.com/macros/s/AKfycbzS-fRkCy6FdiUxSDw2GG1u_c1fjit8MBIOZZAPHfKUeGFbbWMnCKp6IhZe5CBkn0lQ/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      action: 'updateVirtualSeat',
-      seatId: seatId,
-      status: status  // 1 = 使用中, 2 = 空席
-    })
-  })
-  .then(res => res.text())
-  .then(result => {
-    console.log(`座席 ${seatId} の状態を ${status} に更新しました:`, result);
-  })
-  .catch(err => {
-    console.error(`座席 ${seatId} の状態更新失敗:`, err);
-  });
-}
+//function updateVirtualSeatStatus(seatId, status) {
+//  fetch('https://script.google.com/macros/s/AKfycbzS-fRkCy6FdiUxSDw2GG1u_c1fjit8MBIOZZAPHfKUeGFbbWMnCKp6IhZe5CBkn0lQ/exec', {
+//    method: 'POST',
+//    headers: { 'Content-Type': 'application/json' },
+//    body: JSON.stringify({
+//      action: 'updateVirtualSeat',
+//      seatId: seatId,
+//      status: status  // 1 = 使用中, 2 = 空席
+//    })
+//  })
+//  .then(res => res.text())
+//  .then(result => {
+//    console.log(`座席 ${seatId} の状態を ${status} に更新しました:`, result);
+//  })
+//  .catch(err => {
+//    console.error(`座席 ${seatId} の状態更新失敗:`, err);
+//  });
+//}
+
 
 
 
