@@ -745,7 +745,7 @@ async function fetchSeatData() {
   formData.append("mode", "getVirtualSeatStatus");
 
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbyE2te0rlaV7Ge76Ev0u7yS60hR8QnXD51qCCNCEOXtxv-cKV8hDXaiDd5bv30CC7iAkQ/exec', {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbxloSAo0Xg2OGaHtid1IUHW3_1YnDDO1eY7KHpyRBMlBn_McrYtb6iBsWT_9_gnLUARPw/exec', {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -762,6 +762,7 @@ async function fetchSeatData() {
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
 setInterval(sendSeatStatusToSpreadsheet, 1 * 60 * 1000);
+
 
 
 
