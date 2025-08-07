@@ -740,28 +740,29 @@ async function verifyPassword() {
 }
 
 //外部で座席利用状況を確認する機能
-async function fetchSeatData() {
-  const formData = new URLSearchParams();
-  formData.append("mode", "getVirtualSeatStatus");
-
-  try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbxloSAo0Xg2OGaHtid1IUHW3_1YnDDO1eY7KHpyRBMlBn_McrYtb6iBsWT_9_gnLUARPw/exec', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formData.toString()
-    });
-
-    const data = await res.json();
-    renderSeats(data);
-  } catch (error) {
-    console.error("Error fetching seat data:", error);
-  }
-}
+//async function fetchSeatData() {
+//  const formData = new URLSearchParams();
+//  formData.append("mode", "getVirtualSeatStatus");
+//
+//  try {
+//    const res = await fetch('https://script.google.com/macros/s/AKfycbxloSAo0Xg2OGaHtid1IUHW3_1YnDDO1eY7KHpyRBMlBn_McrYtb6iBsWT_9_gnLUARPw/exec', {
+//      method: "POST",
+//      headers: {
+//        "Content-Type": "application/x-www-form-urlencoded"
+//      },
+//      body: formData.toString()
+//    });
+//
+//    const data = await res.json();
+//    renderSeats(data);
+//  } catch (error) {
+//    console.error("Error fetching seat data:", error);
+//  }
+//}
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
-setInterval(fetchSeatData(), 1 * 60 * 1000);
+//setInterval(fetchSeatData(), 1 * 60 * 1000);
+
 
 
 
