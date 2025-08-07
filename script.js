@@ -761,7 +761,8 @@ async function fetchSeatData() {
 }
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
-setInterval(sendSeatStatusToSpreadsheet, 1 * 60 * 1000);
+setInterval(fetchSeatData(), 1 * 60 * 1000);
+
 
 
 
