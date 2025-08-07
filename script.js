@@ -740,24 +740,25 @@ async function verifyPassword() {
 }
 
 //外部で座席利用状況を確認する機能
-//function updateVirtualSeatStatus(seatId, status) {
-//  fetch('https://script.google.com/macros/s/AKfycbzS-fRkCy6FdiUxSDw2GG1u_c1fjit8MBIOZZAPHfKUeGFbbWMnCKp6IhZe5CBkn0lQ/exec', {
-//    method: 'POST',
-//    headers: { 'Content-Type': 'application/json' },
-//    body: JSON.stringify({
-//      action: 'updateVirtualSeat',
-//      seatId: seatId,
-//      status: status  // 1 = 使用中, 2 = 空席
-//    })
-//  })
-//  .then(res => res.text())
-//  .then(result => {
-//    console.log(`座席 ${seatId} の状態を ${status} に更新しました:`, result);
-//  })
-//  .catch(err => {
-//    console.error(`座席 ${seatId} の状態更新失敗:`, err);
-//  });
-//}
+function sendSeatStatusToSpreadsheet() {
+  const seatIds = logData
+    .filter(log => !log.checkOut)
+    .map(log => log.seatId);
+
+  fetch('https://script.google.com/macros/s/AKfycbzwLEUZHkfhR2lR5eKyb2LPBxyTSs-EyuiLMTfz9ol9_J9MaoDbo0TvZL4RD_8_n5NB3g/exec', {
+    method: 'POST',
+    body: JSON.stringify({
+      action: "updateSeats",
+      seatIds: seatIds
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(response => console.log("送信完了"));
+}
+
+// 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
+setInterval(sendSeatStatusToSpreadsheet, 1 * 60 * 1000);
 
 
 
