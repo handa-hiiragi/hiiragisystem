@@ -340,6 +340,7 @@ function executeLogout() {
       initializeApp();
     }, 15 * 1000); // 30分　30 * 60 * 1000　いったん15s
 }
+        }
 //★★ここまでログアウト機能★★
 
 
@@ -766,6 +767,7 @@ async function verifyPassword() {
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
 //setInterval(fetchSeatData(), 1 * 60 * 1000);
+
 
 
 
