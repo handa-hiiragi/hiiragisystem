@@ -339,7 +339,8 @@ function executeLogout() {
       console.log("30分後に初期動作を再実行します");
       initializeApp();
     　document.getElementById('logoutCompleteModal').style.display = 'none';
-      document.getElementById('settingsModal').style.display='none'
+      document.getElementById('settingsModal').style.display='none';
+      document.getElementById('assignModal').style.display = 'none';
     }, 15 * 1000); // 30分　30 * 60 * 1000　いったん15s
   });
 }
@@ -439,7 +440,7 @@ function handleAdminConfirm(answer) {
       localStorage.setItem('seatLogs', JSON.stringify(logData));
     }
 
-//退席処理機能(現在修正処理中)
+//退席処理機能
 
 function restoreSeatState() {
   logData.forEach(log => {
@@ -769,6 +770,7 @@ async function verifyPassword() {
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
 //setInterval(fetchSeatData(), 1 * 60 * 1000);
+
 
 
 
