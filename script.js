@@ -112,7 +112,7 @@ function insertSpacer() {
 
 //★ここから先タブを開いた時の初期動作★
 //■読み込み機能全体統括■
-window.addEventListener('DOMContentLoaded', async () => {
+async function initializeApp() {
   document.getElementById('loadingOverlay').style.display = 'flex';
 
   try {
@@ -135,8 +135,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   } finally {
     document.getElementById('loadingOverlay').style.display = 'none';
   }
-});
+}
 
+
+// タブを開いたときの初期動作を実行するための関数
+window.addEventListener('DOMContentLoaded', initializeApp);
 
 window.addEventListener('beforeunload', (e) => {
   const message = 'このシステムではリロードはできません。'
@@ -328,13 +331,14 @@ function executeLogout() {
     clearAllSeats();
     saveLogs();
 
-    //setTimeout(() => {
-     // window.close();
-   // }, 1000);
-
-          // ログアウト完了モーダル表示
+    // ▶ ログアウト完了モーダル表示
     document.getElementById('logoutCompleteModal').style.display = 'flex';
-  });
+
+    // ▶ 30分後に初期動作を再実行
+    setTimeout(() => {
+      console.log("30分後に初期動作を再実行します");
+      initializeApp();
+    }, 15 * 1000); // 30分　30 * 60 * 1000　いったん15s
 }
 //★★ここまでログアウト機能★★
 
@@ -762,6 +766,7 @@ async function verifyPassword() {
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
 //setInterval(fetchSeatData(), 1 * 60 * 1000);
+
 
 
 
