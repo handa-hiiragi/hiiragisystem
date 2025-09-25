@@ -341,7 +341,7 @@ function executeLogout() {
     　document.getElementById('logoutCompleteModal').style.display = 'none';
       document.getElementById('settingsModal').style.display='none';
       document.getElementById('assignModal').style.display = 'none';
-    }, 15 * 1000); // 30分　30 * 60 * 1000　いったん15s
+    }, 30 * 60 * 1000); // 30分
   });
 }
 //★★ここまでログアウト機能★★
@@ -770,6 +770,7 @@ async function verifyPassword() {
 
 // 5分ごとに送信(今は仮として1分。本当は1を5に変えれば動作する)
 //setInterval(fetchSeatData(), 1 * 60 * 1000);
+
 
 
 
